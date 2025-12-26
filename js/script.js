@@ -1,68 +1,59 @@
-// ===== Floating cart scroll movement =====
-const floatingCart = document.querySelector('.floating-cart');
-window.addEventListener('scroll', () => {
-    const offset = Math.min(window.scrollY / 2, 200); // max offset
-    floatingCart.style.top = `${100 + offset}px`;
-});
+document.addEventListener("DOMContentLoaded", () => {
 
-// ===== Cart logic =====
-const addToCartButtons = document.querySelectorAll('.add-to-cart');
-const cartItems = document.getElementById('cart-items');
-const cartTotal = document.getElementById('cart-total');
+    const buttons = document.querySelectorAll(".add-to-cart");
+    const cartItems = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const cartBox = document.querySelector(".cart");
 
-let total = 0;
+    let cart = [];
+    let total = 0;
 
-addToCartButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        const product = e.currentTarget.closest('.product');
-        const name = button.dataset.name;
-        const price = Number(button.dataset.price);
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            const name = button.dataset.name;
+            const price = Number(button.dataset.price);
 
-        // ----- 1️⃣ Flying product animation -----
-        const img = product.querySelector('img').cloneNode(true);
-        img.classList.add('flying-img');
-        document.body.appendChild(img);
+            cart.push({ name, price });
+            total += price;
 
-        const rect = product.querySelector('img').getBoundingClientRect();
-        img.style.top = `${rect.top}px`;
-        img.style.left = `${rect.left}px`;
-
-        const cartRect = floatingCart.getBoundingClientRect();
-
-        requestAnimationFrame(() => {
-            img.style.top = `${cartRect.top + 20}px`;
-            img.style.left = `${cartRect.left + 20}px`;
-            img.style.width = '40px';
-            img.style.height = '40px';
-            img.style.opacity = 0;
+            renderCart();
+            pulseCart();
         });
-
-        img.addEventListener('transitionend', () => img.remove());
-
-        // ----- 2️⃣ Add item to cart list -----
-        const li = document.createElement('li');
-        li.textContent = `${name} - $${price.toFixed(2)}`;
-
-        // Remove button
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'Remove';
-        removeBtn.addEventListener('click', () => {
-            total -= price;
-            updateTotal();
-            li.remove();
-        });
-        li.appendChild(removeBtn);
-
-        cartItems.appendChild(li);
-
-        // ----- 3️⃣ Update total -----
-        total += price;
-        updateTotal();
     });
+
+    function renderCart() {
+        cartItems.innerHTML = "";
+
+        cart.forEach((item, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                ${item.name} - $${item.price.toFixed(2)}
+                <span data-index="${index}" style="cursor:pointer;color:#f87171;">✕</span>
+            `;
+            cartItems.appendChild(li);
+        });
+
+        cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+        addRemoveEvents();
+    }
+
+    function addRemoveEvents() {
+        const removeButtons = cartItems.querySelectorAll("span");
+
+        removeButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                total -= cart[index].price;
+                cart.splice(index, 1);
+                renderCart();
+            });
+        });
+    }
+
+    function pulseCart() {
+        cartBox.classList.add("pulse");
+        setTimeout(() => cartBox.classList.remove("pulse"), 400);
+    }
 });
 
-// ===== Function to update total =====
-function updateTotal() {
-    cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-}
 

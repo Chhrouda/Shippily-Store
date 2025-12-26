@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Shippily Store | Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/style.css">
+    <!-- BASIC -->
+    <meta charset="UTF-8">
+    <title>Shippily Store | Fast & Reliable Online Shopping</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO CORE -->
+    <meta name="description" content="Shippily Store is a modern e-commerce platform offering fast delivery, quality products, and a smooth shopping experience.">
+    <meta name="keywords" content="Shippily, online store, e-commerce, shop online, fast delivery">
+    <meta name="author" content="Ahmed Chrouda">
+
+    <!-- OPEN GRAPH (Social sharing) -->
+    <meta property="og:title" content="Shippily Store">
+    <meta property="og:description" content="A modern e-commerce experience built for speed and simplicity.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://YOUR_USERNAME.github.io/Shippily-Store/">
+    <meta property="og:image" content="https://picsum.photos/600/400">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header>
     <div class="navbar">
-        <h1><a href="index.html" style="text-decoration:none; color:inherit;">Shippily Store</a></h1>
+        <h1>
+            <a href="index.html">Shippily Store</a>
+        </h1>
         <nav>
             <a href="index.html">Home</a>
             <a href="products.html">Products</a>
@@ -20,67 +37,44 @@
     </div>
 </header>
 
-<section class="hero">
-    <div class="hero-text">
-        <h2>Welcome to Shippily Store</h2>
-        <p>Your favorite products delivered fast & safe.</p>
-        <button onclick="window.location.href='products.html'">Shop Now</button>
-    </div>
-</section>
-
 <main>
-    <h2 style="text-align:center; margin:2rem 0;">Bestsellers</h2>
     <section class="products">
         <div class="product">
-            <img src="images/product1.jpg" alt="Top Product 1">
-            <h3>Top Product 1</h3>
-            <p>$50.00</p>
-            <button class="add-to-cart" data-name="Top Product 1" data-price="50">Add to Cart</button>
+            <img src="https://picsum.photos/300/300?random=1" alt="Best Selling Product 1">
+            <h3>Best Seller 1</h3>
+            <p>$10.00</p>
+            <button class="add-to-cart" data-name="Best Seller 1" data-price="10">Add to Cart</button>
         </div>
+
         <div class="product">
-            <img src="images/product2.jpg" alt="Top Product 2">
-            <h3>Top Product 2</h3>
-            <p>$75.00</p>
-            <button class="add-to-cart" data-name="Top Product 2" data-price="75">Add to Cart</button>
+            <img src="https://picsum.photos/300/300?random=2" alt="Best Selling Product 2">
+            <h3>Best Seller 2</h3>
+            <p>$20.00</p>
+            <button class="add-to-cart" data-name="Best Seller 2" data-price="20">Add to Cart</button>
         </div>
+
         <div class="product">
-            <img src="images/product3.jpg" alt="Top Product 3">
-            <h3>Top Product 3</h3>
-            <p>$35.00</p>
-            <button class="add-to-cart" data-name="Top Product 3" data-price="35">Add to Cart</button>
+            <img src="https://picsum.photos/300/300?random=3" alt="Best Selling Product 3">
+            <h3>Best Seller 3</h3>
+            <p>$30.00</p>
+            <button class="add-to-cart" data-name="Best Seller 3" data-price="30">Add to Cart</button>
         </div>
     </section>
 
-    <section class="highlights" style="display:flex; justify-content:space-around; margin:3rem 0; text-align:center;">
-        <div>
-            <h3>🚚 Free Shipping</h3>
-            <p>Fast delivery for all orders over $50</p>
-        </div>
-        <div>
-            <h3>💎 Premium Quality</h3>
-            <p>Only the best products from trusted brands</p>
-        </div>
-        <div>
-            <h3>📞 24/7 Support</h3>
-            <p>We’re here to help anytime you need</p>
-        </div>
+    <section class="cart">
+        <h2>Your Cart</h2>
+        <ul id="cart-items"></ul>
+        <p id="cart-total">Total: $0.00</p>
     </section>
 </main>
 
-<section class="cart floating-cart">
-    <h2>Cart</h2>
-    <ul id="cart-items"></ul>
-    <p id="cart-total">Total: $0.00</p>
-</section>
-
 <footer>
-    <p>© 2025 Shippily Store</p>
+    <p>© 2025 Shippily Store — Built by Ahmed Chrouda</p>
 </footer>
 
 <script src="js/script.js"></script>
 </body>
 </html>
-
 
 
 
