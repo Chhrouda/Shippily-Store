@@ -8,29 +8,28 @@
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background-color: #0f172a;
-    color: #e5e7eb;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000; /* black background */
+    color: #fff; /* white text */
     min-height: 100vh;
     animation: fadeIn 0.8s ease-in;
 }
 
-/* Page fade-in */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =====================
    HEADER / NAVBAR
 ===================== */
 header {
-    background: #020617;
+    background: #111;
     padding: 1.2rem 2rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 5px 20px rgba(255,255,255,0.1);
 }
 
 .navbar {
@@ -41,21 +40,21 @@ header {
 
 .navbar h1 a {
     text-decoration: none;
-    color: #38bdf8;
-    font-size: 1.7rem;
+    color: #fff;
+    font-size: 1.8rem;
     font-weight: 800;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
 }
 
 .navbar h1 a:hover {
-    transform: scale(1.03);
-    opacity: 0.9;
+    color: #aaa;
 }
 
 nav a {
     margin-left: 1.5rem;
     text-decoration: none;
-    color: #e5e7eb;
+    color: #fff;
     font-weight: 500;
     position: relative;
 }
@@ -67,7 +66,7 @@ nav a::after {
     height: 2px;
     bottom: -4px;
     left: 0;
-    background: #38bdf8;
+    background: #fff;
     transition: width 0.3s ease;
 }
 
@@ -95,23 +94,23 @@ main {
 }
 
 .product {
-    background: #020617;
+    background: #111;
     border-radius: 14px;
     padding: 1.2rem;
     text-align: center;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(255,255,255,0.05);
     animation: slideUp 0.6s ease forwards;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .product:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 70px rgba(56,189,248,0.25);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(255,255,255,0.1);
 }
 
 .product img {
@@ -128,24 +127,25 @@ main {
 .product p {
     margin-bottom: 0.8rem;
     font-weight: bold;
-    color: #4ade80;
+    color: #ccc;
 }
 
-/* Button pop */
+/* Button modern */
 .product button {
     width: 100%;
     padding: 0.6rem;
     border-radius: 8px;
-    border: none;
-    background: #38bdf8;
-    color: #020617;
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.15s ease, background 0.2s ease;
+    transition: transform 0.15s ease, background 0.3s ease, color 0.3s ease;
 }
 
 .product button:hover {
-    background: #0ea5e9;
+    background: #fff;
+    color: #000;
 }
 
 .product button:active {
@@ -156,13 +156,13 @@ main {
    CART (STICKY SIDE)
 ===================== */
 .cart {
-    background: #020617;
+    background: #111;
     border-radius: 14px;
     padding: 1.2rem;
     height: fit-content;
     position: sticky;
     top: 100px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 50px rgba(255,255,255,0.05);
     transition: transform 0.3s ease;
 }
 
@@ -171,15 +171,15 @@ main {
 }
 
 @keyframes pulse {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.03); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
     100% { transform: scale(1); }
 }
 
 .cart h2 {
     text-align: center;
     margin-bottom: 1rem;
-    color: #38bdf8;
+    color: #fff;
 }
 
 #cart-items {
@@ -203,7 +203,7 @@ main {
     text-align: center;
     font-size: 1.1rem;
     margin-top: 1rem;
-    color: #4ade80;
+    color: #fff;
 }
 
 /* =====================
@@ -212,10 +212,10 @@ main {
 footer {
     text-align: center;
     padding: 1.5rem;
-    background: #020617;
+    background: #111;
     margin-top: 2rem;
     font-size: 0.9rem;
-    color: #94a3b8;
+    color: #888;
 }
 
 /* =====================
@@ -229,5 +229,7 @@ footer {
     .cart {
         position: relative;
         top: auto;
+        margin-top: 2rem;
     }
 }
+
