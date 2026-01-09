@@ -2,47 +2,57 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shippily Store | Contact</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Shippily</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header>
-    <div class="navbar">
-        <h1>Shippily Store</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="cart.html">Cart</a>
-            <a href="contact.html">Contact</a>
-        </nav>
+  <div class="nav">
+    <strong>Shippily</strong>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html" class="cart-link">
+        Cart (<span id="cartCount">0</span>)
+      </a>
+      <a href="contact.html">Contact</a>
     </div>
+  </div>
 </header>
 
-<main style="padding:2rem; max-width:600px; margin: auto;">
-    <h2>Contact Us</h2>
-    <form>
-        <label>
-            Name:
-            <input type="text" placeholder="Your Name" required style="width:100%; padding:0.5rem; margin:0.5rem 0;">
-        </label>
-        <label>
-            Email:
-            <input type="email" placeholder="Your Email" required style="width:100%; padding:0.5rem; margin:0.5rem 0;">
-        </label>
-        <label>
-            Message:
-            <textarea placeholder="Your Message" required style="width:100%; padding:0.5rem; margin:0.5rem 0;"></textarea>
-        </label>
-        <button type="submit" style="padding:0.7rem 1.2rem; background:#38bdf8; border:none; border-radius:6px; color:#fff; cursor:pointer;">Send</button>
-    </form>
-</main>
+<div class="container">
+  <h2>Contact Us</h2>
+  <p style="margin-bottom: 2rem; color:#555;">
+    Have feedback or questions? We’d love to hear from you.
+  </p>
 
-<footer>
-    <p>© 2025 Shippily Store</p>
-</footer>
+  <form class="contact-form">
+    <label>
+      Name
+      <input type="text" placeholder="Your name" required>
+    </label>
+
+    <label>
+      Email
+      <input type="email" placeholder="your@email.com" required>
+    </label>
+
+    <label>
+      Feedback
+      <textarea rows="5" placeholder="Write your message here..." required></textarea>
+    </label>
+
+    <button type="submit">Send Feedback</button>
+  </form>
+</div>
+
+<a href="cart.html" class="floating-cart">
+  Cart (<span id="floatingCount">0</span>)
+</a>
 
 <script src="js/script.js"></script>
 </body>
 </html>
+
