@@ -36,3 +36,12 @@ app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);
 });
 
+const productsRoutes = require("./routes/products");
+app.use("/api/products", productsRoutes);
+
+// --- Mount routes BEFORE listen ---
+const ordersRoutes = require("./routes/orders");
+app.use("/api/orders", ordersRoutes);
+
+// ✅ Add products routes so GET /api/products works
+
