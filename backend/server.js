@@ -1,4 +1,3 @@
-
 // server.js
 require("dotenv").config();
 const express = require("express");
@@ -22,6 +21,9 @@ app.get("/", (req, res) => {
 const ordersRoutes = require("./routes/orders");
 app.use("/api/orders", ordersRoutes);
 
+const productsRoutes = require("./routes/products");
+app.use("/api/products", productsRoutes);
+
 // --- MongoDB connect ---
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/shippily";
 mongoose
@@ -36,12 +38,4 @@ app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);
 });
 
-const productsRoutes = require("./routes/products");
-app.use("/api/products", productsRoutes);
-
-// --- Mount routes BEFORE listen ---
-const ordersRoutes = require("./routes/orders");
-app.use("/api/orders", ordersRoutes);
-
-// ✅ Add products routes so GET /api/products works
 
