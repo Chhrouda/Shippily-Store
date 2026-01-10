@@ -1,3 +1,4 @@
+
 // server.js
 require("dotenv").config();
 const express = require("express");
@@ -7,35 +8,59 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-// --- Middlewares ---
+/* ----------------------- MIDDLEWARES ------------------------ */
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// --- Health check ---
-app.get("/", (req, res) => {
-  res.send("Backend is running");
+/* ----------------------- HEALTH ----------------------------- */
+app.get("/api/health", (req, res) => {
+  res.json({
+    ok: true,
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+  });
 });
 
-// --- Mount routes BEFORE listen ---
-const ordersRoutes = require("./routes/orders");
-app.use("/api/orders", ordersRoutes);
+app.get("/", (req, res) => {
+  res.send("Backend is running. Try /api/health");
+});
 
-const productsRoutes = require("./routes/products");
-app.use("/api/products", productsRoutes);
+/* ----------------------- ROUTES ----------------------------- */
+app.use("/api/orders", require("./routes/orders"));
+app.use("/api/products", require("./routes/products"));
 
-// --- MongoDB connect ---
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/shippily";
+/* ----------------------- MONGODB ---------------------------- */
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/shippily";
+
+mongoose.set("strictQuery", true);
+
 mongoose
   .connect(MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err.message));
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err =>
+    console.error("❌ MongoDB connection error:", err.message)
+  );
 
-// --- Start server LAST ---
-const PORT = process.env.PORT || 5000;
-const HOST = process.env.HOST || "0.0.0.0";
-app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
+/* ----------------------- ERRORS ----------------------------- */
+app.use((req, res) => {
+  res.status(404).json({ error: "Not found" });
 });
 
+app.use((err, req, res, next) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Server error" });
+});
 
+/* ----------------------- LISTEN ----------------------------- */
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
+// ================== FRONTEND SCRIPT.JS ==================
+// ================= CONFIG =================
+// 🔁 CHANGE THIS when deploying to Render
+const API_BASE = "https://shippily-store.onrender.com";
+// Example for production:
+// const API_BASE = "https://shippily-store.onrender.com";
