@@ -7,11 +7,15 @@ import helmet from "helmet";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Routes
+import paymentRoutes from "./routes/payments.js";
+
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
+// Needed for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -21,7 +25,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// ✅ SERVE FRONTEND FROM /frontend
+// ✅ Serve frontend
 const frontendPath = path.join(__dirname, "..", "frontend");
 app.use(express.static(frontendPath));
 
@@ -34,12 +38,15 @@ mongoose
     process.exit(1);
   });
 
-// API health check
+// API routes
+app.use("/api/payments", paymentRoutes);
+
+// Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK" });
 });
 
-// ✅ WEBSITE ROUTES (fallback)
+// Frontend fallback
 app.get("*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
@@ -47,6 +54,4 @@ app.get("*", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-const paymentRoutes = require("./routes/payments");
-app.use("/api/payments", paymentRoutes);
 
