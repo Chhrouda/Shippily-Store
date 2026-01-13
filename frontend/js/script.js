@@ -1,19 +1,28 @@
 // ================= CONFIG =================
-const API_URL = "/api";
-// const API_BASE = "https://shippily-store.onrender.com";
+const API_BASE = ""; // same-origin (Render-safe)
 
 // ================= GLOBAL CART =================
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ================= DOM READY =================
-document.addEventListener("DOMContentLoaded", () => {
+// ================= HELPERS =================
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function getCartCount() {
+  return cart.reduce((sum, item) => sum + item.quantity, 0);
+}
+
+function updateCartUI() {
   const cartCount = document.getElementById("cartCount");
   const floatingCount = document.getElementById("floatingCount");
 
-  function updateCartUI() {
-    if (cartCount) cartCount.textContent = cart.length;
-    if (floatingCount) floatingCount.textContent = cart.length;
-  }
+  if (cartCount) cartCount.textContent = getCartCount();
+  if (floatingCount) floatingCount.textContent = getCartCount();
+}
+
+// ================= DOM READY =================
+document.addEventListener("DOMContentLoaded", () => {
   updateCartUI();
 
   // ===== CART PAGE =====
@@ -33,13 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cart.forEach((item, index) => {
-      total += item.price;
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
 
       const div = document.createElement("div");
       div.className = "cart-item";
       div.innerHTML = `
         <div>
-          <strong>${item.name}</strong><br>$${item.price.toFixed(2)}
+          <strong>${item.name}</strong><br>
+          $${item.price.toFixed(2)} × ${item.quantity}
         </div>
         <button class="remove" data-index="${index}">Remove</button>
       `;
@@ -51,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".remove").forEach(btn => {
       btn.addEventListener("click", () => {
         cart.splice(btn.dataset.index, 1);
-        localStorage.setItem("cart", JSON.stringify(cart));
+        saveCart();
         updateCartUI();
         renderCart();
       });
@@ -65,9 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if (checkoutForm) {
     checkoutForm.addEventListener("submit", async e => {
       e.preventDefault();
-      if (cart.length === 0) return alert("Your cart is empty.");
 
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
 
       try {
         const res = await fetch(`${API_BASE}/api/orders`, {
@@ -75,12 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ items: cart, total })
         });
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Order failed");
 
         alert("Order placed successfully 🎉");
+
         cart = [];
-        localStorage.setItem("cart", JSON.stringify(cart));
+        saveCart();
         updateCartUI();
         renderCart();
         checkoutForm.reset();
@@ -97,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ================= ADD TO CART (EVENT DELEGATION) =================
+// ================= ADD TO CART =================
 document.addEventListener("click", e => {
   if (!e.target.classList.contains("addToCart")) return;
 
@@ -107,15 +127,16 @@ document.addEventListener("click", e => {
   const name = product.dataset.name;
   const price = Number(product.dataset.price);
 
-  cart.push({ name, price });
-  localStorage.setItem("cart", JSON.stringify(cart));
+  const existing = cart.find(item => item.name === name);
 
-  const cartCount = document.getElementById("cartCount");
-  const floatingCount = document.getElementById("floatingCount");
-  if (cartCount) cartCount.textContent = cart.length;
-  if (floatingCount) floatingCount.textContent = cart.length;
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ name, price, quantity: 1 });
+  }
 
-  alert(`${name} added to cart 🛒`);
+  saveCart();
+  updateCartUI();
 });
 
 // ================= API PRODUCTS =================
@@ -123,6 +144,7 @@ async function loadProducts() {
   try {
     const res = await fetch(`${API_BASE}/api/products`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const products = await res.json();
     renderProducts(products);
   } catch (err) {
@@ -136,7 +158,6 @@ function renderProducts(items) {
   const list = document.getElementById("products-list");
   if (!list) return;
 
-  // Map DB products dynamically
   list.innerHTML = items.map(p => `
     <div class="product" data-name="${p.name}" data-price="${p.price}">
       <img src="${p.image || `https://picsum.photos/300?random=${p._id}`}">
@@ -146,6 +167,7 @@ function renderProducts(items) {
     </div>
   `).join("");
 }
+
 
 
 
