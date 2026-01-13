@@ -71,47 +71,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCart();
 
-  // ===== CHECKOUT =====
-  const checkoutForm = document.getElementById("checkoutForm");
-  if (checkoutForm) {
-    checkoutForm.addEventListener("submit", async e => {
-      e.preventDefault();
+// ===== CHECKOUT =====
+const checkoutForm = document.getElementById("checkoutForm");
+if (checkoutForm) {
+  checkoutForm.addEventListener("submit", async e => {
+    e.preventDefault();
 
-      if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-      }
+    if (cart.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-      const total = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      );
+    try {
+      const res = await fetch("/api/payments/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cart })
+      });
 
-      try {
-        const res = await fetch(`${API_BASE}/api/orders`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ items: cart, total })
-        });
+      const data = await res.json();
+      if (!data.url) throw new Error("Stripe failed");
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Order failed");
+      window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+      alert("Payment failed.");
+    }
+  });
+}
 
-        alert("Order placed successfully 🎉");
-
-        cart = [];
-        saveCart();
-        updateCartUI();
-        renderCart();
-        checkoutForm.reset();
-      } catch (err) {
-        console.error(err);
-        alert("Failed to place order.");
-      }
-    });
-  }
-
-  // ===== LOAD PRODUCTS FROM BACKEND =====
+// ===== LOAD PRODUCTS FROM BACKEND =====
   if (document.getElementById("products-list")) {
     loadProducts();
   }

@@ -47,4 +47,6 @@ app.get("*", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+const paymentRoutes = require("./routes/payments");
+app.use("/api/payments", paymentRoutes);
 
