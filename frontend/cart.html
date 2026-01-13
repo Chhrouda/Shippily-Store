@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shippily Store - Fast & Reliable Shipping" />
+  <title>Shopping Cart</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <strong>Shippily</strong>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html" class="cart-link">
+        Cart (<span id="cartCount">0</span>)
+      </a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h2>Your Cart</h2>
+
+  <div id="cartItems" class="cart-container">
+    <!-- Cart items will be rendered here by JS -->
+  </div>
+
+  <div class="cart-summary">
+    <p>Total: $<span id="cartTotal">0.00</span></p>
+  </div>
+
+  <form id="checkoutForm">
+    <h3>Checkout</h3>
+    <label>
+      Name:
+      <input type="text" name="name" required />
+    </label>
+    <label>
+      Email:
+      <input type="email" name="email" required />
+    </label>
+    <button type="submit">Place Order</button>
+  </form>
+</div>
+
+<a href="products.html" class="back-products">← Back to Products</a>
+
+<footer>
+  © 2025 Shippily Store
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+

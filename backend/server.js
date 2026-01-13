@@ -1,66 +1,50 @@
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
+import helmet from "helmet";
+import path from "path";
+import { fileURLToPath } from "url";
 
-// server.js
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-/* ----------------------- MIDDLEWARES ------------------------ */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(cors());
+app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
 
-/* ----------------------- HEALTH ----------------------------- */
-app.get("/api/health", (req, res) => {
-  res.json({
-    ok: true,
-    uptime: process.uptime(),
-    timestamp: Date.now(),
-  });
-});
+// ✅ SERVE FRONTEND FROM /frontend
+const frontendPath = path.join(__dirname, "..", "frontend");
+app.use(express.static(frontendPath));
 
-app.get("/", (req, res) => {
-  res.send("Backend is running. Try /api/health");
-});
-
-/* ----------------------- ROUTES ----------------------------- */
-app.use("/api/orders", require("./routes/orders"));
-app.use("/api/products", require("./routes/products"));
-
-/* ----------------------- MONGODB ---------------------------- */
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/shippily";
-
-mongoose.set("strictQuery", true);
-
+// MongoDB
 mongoose
-  .connect(MONGO_URI)
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
-  .catch(err =>
-    console.error("❌ MongoDB connection error:", err.message)
-  );
+  .catch((err) => {
+    console.error("❌ MongoDB error:", err);
+    process.exit(1);
+  });
 
-/* ----------------------- ERRORS ----------------------------- */
-app.use((req, res) => {
-  res.status(404).json({ error: "Not found" });
+// API health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK" });
 });
 
-app.use((err, req, res, next) => {
-  console.error("Unhandled error:", err);
-  res.status(500).json({ error: "Server error" });
+// ✅ WEBSITE ROUTES (fallback)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-/* ----------------------- LISTEN ----------------------------- */
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-// ================== FRONTEND SCRIPT.JS ==================
-// ================= CONFIG =================
-// 🔁 CHANGE THIS when deploying to Render
-const API_BASE = "https://shippily-store.onrender.com";
-// Example for production:
-// const API_BASE = "https://shippily-store.onrender.com";
+

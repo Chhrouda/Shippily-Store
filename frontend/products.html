@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shippily Store - Fast & Reliable Shipping" />
+  <title>Products</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <strong>Shippily</strong>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html" class="cart-link">
+        Cart (<span id="cartCount">0</span>)
+      </a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h2>Products</h2>
+
+  <div id="products-error" class="error"></div>
+
+  <div class="products" id="products-list">
+    <!-- FALLBACK 8 PRODUCTS (if backend fails) -->
+    <div class="product" data-name="Backpack" data-price="12">
+      <img src="https://picsum.photos/300?1" />
+      <h3>Backpack</h3>
+      <p>$12</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Watch" data-price="22">
+      <img src="https://picsum.photos/300?2" />
+      <h3>Watch</h3>
+      <p>$22</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Headphones" data-price="31">
+      <img src="https://picsum.photos/300?3" />
+      <h3>Headphones</h3>
+      <p>$31</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Shoes" data-price="18">
+      <img src="https://picsum.photos/300?4" />
+      <h3>Shoes</h3>
+      <p>$18</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Jacket" data-price="26">
+      <img src="https://picsum.photos/300?5" />
+      <h3>Jacket</h3>
+      <p>$26</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Sunglasses" data-price="29">
+      <img src="https://picsum.photos/300?6" />
+      <h3>Sunglasses</h3>
+      <p>$29</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Laptop Bag" data-price="15">
+      <img src="https://picsum.photos/300?7" />
+      <h3>Laptop Bag</h3>
+      <p>$15</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="Wallet" data-price="70">
+      <img src="https://picsum.photos/300?8" />
+      <h3>Wallet</h3>
+      <p>$70</p>
+      <button class="addToCart">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<a href="cart.html" class="floating-cart">
+  Cart (<span id="floatingCount">0</span>)
+</a>
+
+<footer>
+  © 2025 Shippily Store
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
