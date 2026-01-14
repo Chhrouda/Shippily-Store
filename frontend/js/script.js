@@ -1,5 +1,8 @@
 // ================= CONFIG =================
-const API_BASE = ""; // same-origin (Render-safe)
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://backend.onrender.com";
 
 // ================= GLOBAL CART =================
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -130,32 +133,36 @@ document.addEventListener("click", e => {
 
 // ================= API PRODUCTS =================
 async function loadProducts() {
+  const list = document.getElementById("productList");
+  list.innerHTML = "<p>Loading products...</p>";
+
+  let products = [];
+
   try {
-    const res = await fetch(`${API_BASE}/api/products`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const products = await res.json();
-    renderProducts(products);
+    const res = await fetch(`${API_BASE}/products`);
+    if (!res.ok) throw new Error();
+    products = await res.json();
   } catch (err) {
-    console.error("Failed to load products:", err);
-    const errorEl = document.getElementById("products-error");
-    if (errorEl) errorEl.textContent = "Could not load products from backend.";
+    console.warn("Backend not available");
   }
-}
 
-function renderProducts(items) {
-  const list = document.getElementById("products-list");
-  if (!list) return;
+  if (!products.length) {
+    list.innerHTML = "<p>No products available.</p>";
+    return;
+  }
 
-  list.innerHTML = items.map(p => `
-    <div class="product" data-name="${p.name}" data-price="${p.price}">
-      <img src="${p.image || `https://picsum.photos/300?random=${p._id}`}">
+  list.innerHTML = products.map(p => `
+    <div class="product">
+      <img src="${p.image || 'https://picsum.photos/300'}" alt="${p.name}">
       <h3>${p.name}</h3>
       <p>$${p.price}</p>
-      <button class="addToCart">Add to Cart</button>
+      <button onclick='addToCart(${JSON.stringify(p)})'>
+        Add to Cart
+      </button>
     </div>
   `).join("");
 }
+
 
 
 
