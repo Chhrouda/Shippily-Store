@@ -73,17 +73,31 @@
 <div class="lang-box">
   <h1>Choose your language</h1>
 
-  <button class="lang-btn" onclick="setLang('tn')">🇹🇳 تونسي</button>
-  <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
-  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+  <button onclick="setLang('tn')">
+  🇹🇳 TN تونسي
+</button>
+
+<button onclick="setLang('fr')">
+  🇫🇷 FR Français
+</button>
+
+<button onclick="setLang('en')">
+  🇬🇧 EN English
+</button>
+
 </div>
 
 <script>
+  if (localStorage.getItem("lang")) {
+    window.location.replace("/index.html");
+  }
+
   function setLang(lang) {
     localStorage.setItem("lang", lang);
-    window.location.replace("index.html");
+    window.location.replace("/index.html");
   }
 </script>
+
 
 </body>
 </html>
