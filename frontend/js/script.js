@@ -1,5 +1,8 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+/* =====================
+   HELPERS
+===================== */
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
@@ -11,6 +14,9 @@ function updateCartCount() {
   });
 }
 
+/* =====================
+   ADD / REMOVE
+===================== */
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
   if (item) {
@@ -36,6 +42,9 @@ function removeOne(name) {
   updateCartCount();
 }
 
+/* =====================
+   RENDER CART
+===================== */
 function renderCart() {
   const container = document.getElementById("cartItems");
   const totalEl = document.getElementById("cartTotal");
@@ -51,6 +60,7 @@ function renderCart() {
     div.className = "cart-item";
     div.innerHTML = `
       <strong>${item.name} x${item.quantity}</strong>
+      <span>${item.price * item.quantity} TND</span>
       <button class="remove-btn">Remove</button>
     `;
 
@@ -64,29 +74,36 @@ function renderCart() {
   totalEl.textContent = total.toFixed(2);
 }
 
+/* =====================
+   WHATSAPP COD
+===================== */
 function checkoutCOD() {
   if (cart.length === 0) {
     alert("Your cart is empty");
     return;
   }
 
-  let message = "Nouvelle commande:%0A%0A";
+  let message = "🛒 Nouvelle commande:%0A%0A";
   let total = 0;
 
   cart.forEach(item => {
-    message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity} TND%0A`;
-    total += item.price * item.quantity;
+    const lineTotal = item.price * item.quantity;
+    message += `• ${item.name} x${item.quantity} = ${lineTotal} TND%0A`;
+    total += lineTotal;
   });
 
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
-  const phone = "21620342004"; // ❗ ONLY NUMBERS, NO +
+  const phone = "216XXXXXXXX"; // ❗ ONLY numbers
   const url = `https://wa.me/${phone}?text=${message}`;
 
   window.open(url, "_blank");
 }
 
+/* =====================
+   INIT
+===================== */
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
@@ -106,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
+
 
 
 
