@@ -123,6 +123,38 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
+function sendContactWhatsApp(e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const name = form.querySelector('input[type="text"]').value.trim();
+  const email = form.querySelector('input[type="email"]').value.trim();
+  const message = form.querySelector('textarea').value.trim();
+
+  if (!name || !email || !message) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const phone = "21620342004"; // ⚠️ REPLACE WITH YOUR NUMBER (NO +, NO SPACES)
+
+  const text =
+    `📩 New Contact Message\n\n` +
+    `👤 Name: ${name}\n` +
+    `📧 Email: ${email}\n` +
+    `💬 Message:\n${message}`;
+
+  const url =
+    "https://wa.me/" +
+    phone +
+    "?text=" +
+    encodeURIComponent(text);
+
+  window.open(url, "_blank");
+
+  form.reset();
+}
 
 
 
