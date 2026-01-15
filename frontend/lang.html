@@ -61,7 +61,12 @@
 <!-- 🔒 AUTO-REDIRECT IF LANGUAGE EXISTS -->
 <script>
   if (localStorage.getItem("lang")) {
-    window.location.replace("index.html");
+    window.location.replace("/index.html");
+  }
+
+  function setLang(lang) {
+    localStorage.setItem("lang", lang);
+    window.location.replace("/index.html");
   }
 </script>
 

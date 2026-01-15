@@ -17,16 +17,13 @@ const translations = {
     products: "Products",
     cart: "Cart",
     contact: "Contact",
-
     home_title: "Best Tunisian E-commerce Store",
     home_sub: "Premium products built for trust, quality, and scale.",
     explore: "Explore Products",
-
     products_title: "Products",
     cart_title: "Your Cart",
     checkout_title: "Checkout",
     contact_title: "Contact Us",
-
     remove: "Remove",
     pay_cod: "Pay on Delivery",
     empty_cart: "Your cart is empty"
@@ -37,16 +34,13 @@ const translations = {
     products: "Produits",
     cart: "Panier",
     contact: "Contact",
-
     home_title: "La meilleure boutique e-commerce tunisienne",
     home_sub: "Produits premium basés sur la confiance et la qualité.",
     explore: "Voir les produits",
-
     products_title: "Produits",
     cart_title: "Votre panier",
     checkout_title: "Paiement",
     contact_title: "Contactez-nous",
-
     remove: "Supprimer",
     pay_cod: "Paiement à la livraison",
     empty_cart: "Votre panier est vide"
@@ -57,21 +51,38 @@ const translations = {
     products: "البرودوي",
     cart: "السلة",
     contact: "إتصل بينا",
-
     home_title: "أحسن متجر تونسي أونلاين",
     home_sub: "منتوجات مضمونة، جودة وثقة.",
     explore: "شوف البرودوي",
-
     products_title: "البرودوي",
     cart_title: "السلة متاعك",
     checkout_title: "الخلاص",
     contact_title: "إتصل بينا",
-
     remove: "نحّي",
     pay_cod: "خلاص عند التسليم",
     empty_cart: "السلة فارغة"
   }
 };
+
+/* =====================
+   LANGUAGE HANDLING (🔥 FIX)
+===================== */
+
+// On HOME pages → force language selection
+(function enforceLanguage() {
+  const lang = localStorage.getItem("lang");
+  const isLangPage = window.location.pathname.endsWith("lang.html");
+
+  if (!lang && !isLangPage) {
+    window.location.replace("/lang.html");
+  }
+})();
+
+// Called from lang.html buttons
+function setLanguage(lang) {
+  localStorage.setItem("lang", lang);
+  window.location.replace("/");
+}
 
 /* =====================
    HELPERS
@@ -92,11 +103,9 @@ function updateCartCount() {
 ===================== */
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
-  if (item) {
-    item.quantity++;
-  } else {
-    cart.push({ name, price, quantity: 1 });
-  }
+  if (item) item.quantity++;
+  else cart.push({ name, price, quantity: 1 });
+
   saveCart();
   updateCartCount();
 }
@@ -178,10 +187,7 @@ function checkoutCOD() {
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
-  window.open(
-    `https://wa.me/21620342004?text=${message}`,
-    "_blank"
-  );
+  window.open(`https://wa.me/21620342004?text=${message}`, "_blank");
 }
 
 /* =====================
@@ -242,6 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const codBtn = document.getElementById("codBtn");
   if (codBtn) codBtn.onclick = checkoutCOD;
 });
+
 
 
 

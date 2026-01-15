@@ -61,12 +61,14 @@ app.get("/api/health", (req, res) => {
 // FRONTEND FALLBACK (PRODUCTION SAFE)
 // =====================
 app.get(/^\/(?!api).*/, (req, res) => {
-  const requestedPath = req.path === "/" ? "index.html" : req.path.slice(1);
-  const filePath = path.join(frontendPath, requestedPath);
+  if (req.path === "/") {
+    return res.sendFile(path.join(frontendPath, "lang.html"));
+  }
+
+  const filePath = path.join(frontendPath, req.path);
 
   res.sendFile(filePath, err => {
     if (err) {
-      // fallback to index.html for SPA routes
       res.sendFile(path.join(frontendPath, "index.html"));
     }
   });
