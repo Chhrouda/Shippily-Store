@@ -1,8 +1,5 @@
 // ================= CONFIG =================
-const API_BASE =
-  window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://backend.onrender.com";
+const API_BASE = ""; // same-origin (Render-safe)
 
 // ================= GLOBAL CART =================
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -16,110 +13,51 @@ function getCartCount() {
   return cart.reduce((sum, item) => sum + item.quantity, 0);
 }
 
-function updateCartUI() {
+function updateCartCount() {
+  const count = getCartCount();
+
   const cartCount = document.getElementById("cartCount");
   const floatingCount = document.getElementById("floatingCount");
 
-  if (cartCount) cartCount.textContent = getCartCount();
-  if (floatingCount) floatingCount.textContent = getCartCount();
+  if (cartCount) cartCount.textContent = count;
+  if (floatingCount) floatingCount.textContent = count;
 }
 
-// ================= DOM READY =================
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartUI();
-
-  // ===== CART PAGE =====
-  const cartContainer = document.getElementById("cartItems");
+// ================= CART UI LOGIC =================
+function updateCartPage() {
+  const cartItems = document.getElementById("cartItems");
   const cartTotal = document.getElementById("cartTotal");
+  const checkoutSection = document.getElementById("checkoutSection");
 
-  function renderCart() {
-    if (!cartContainer || !cartTotal) return;
+  if (!cartItems || !cartTotal) return;
 
-    cartContainer.innerHTML = "";
-    let total = 0;
-
-    if (cart.length === 0) {
-      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
-      cartTotal.textContent = "0.00";
-      return;
-    }
-
-    cart.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
-      total += itemTotal;
-
-      const div = document.createElement("div");
-      div.className = "cart-item";
-      div.innerHTML = `
-        <div>
-          <strong>${item.name}</strong><br>
-          $${item.price.toFixed(2)} × ${item.quantity}
-        </div>
-        <button class="remove" data-index="${index}">Remove</button>
-      `;
-      cartContainer.appendChild(div);
-    });
-
-    cartTotal.textContent = total.toFixed(2);
-
-    document.querySelectorAll(".remove").forEach(btn => {
-      btn.addEventListener("click", () => {
-        cart.splice(btn.dataset.index, 1);
-        saveCart();
-        updateCartUI();
-        renderCart();
-      });
-    });
+  if (cart.length === 0) {
+    cartItems.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotal.textContent = "0.00";
+    if (checkoutSection) checkoutSection.style.display = "none";
+    return;
   }
 
-  renderCart();
+  let total = 0;
 
-// ===== CHECKOUT =====
-const checkoutForm = document.getElementById("checkoutForm");
-if (checkoutForm) {
-  checkoutForm.addEventListener("submit", async e => {
-    e.preventDefault();
+  cartItems.innerHTML = cart.map((item, index) => {
+    total += item.price * item.quantity;
+    return `
+      <div class="cart-item">
+        <strong>${item.name}</strong>
+        <p>$${item.price} × ${item.quantity}</p>
+        <button onclick="removeFromCart(${index})">Remove</button>
+      </div>
+    `;
+  }).join("");
 
-    if (cart.length === 0) {
-      alert("Your cart is empty.");
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/payments/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart })
-      });
-
-      const data = await res.json();
-      if (!data.url) throw new Error("Stripe failed");
-
-      window.location.href = data.url;
-    } catch (err) {
-      console.error(err);
-      alert("Payment failed.");
-    }
-  });
+  cartTotal.textContent = total.toFixed(2);
+  if (checkoutSection) checkoutSection.style.display = "block";
 }
 
-// ===== LOAD PRODUCTS FROM BACKEND =====
-  if (document.getElementById("products-list")) {
-    loadProducts();
-  }
-});
-
-// ================= ADD TO CART =================
-document.addEventListener("click", e => {
-  if (!e.target.classList.contains("addToCart")) return;
-
-  const product = e.target.closest(".product");
-  if (!product) return;
-
-  const name = product.dataset.name;
-  const price = Number(product.dataset.price);
-
-  const existing = cart.find(item => item.name === name);
+// ================= CART ACTIONS =================
+function addToCart(name, price) {
+  const existing = cart.find(p => p.name === name);
 
   if (existing) {
     existing.quantity += 1;
@@ -128,40 +66,46 @@ document.addEventListener("click", e => {
   }
 
   saveCart();
-  updateCartUI();
-});
+  updateCartCount();
+}
 
-// ================= API PRODUCTS =================
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  saveCart();
+  updateCartCount();
+  updateCartPage();
+}
+
+// ================= PRODUCTS PAGE =================
 async function loadProducts() {
   const list = document.getElementById("productList");
-  list.innerHTML = "<p>Loading products...</p>";
-
-  let products = [];
+  if (!list) return;
 
   try {
-    const res = await fetch(`${API_BASE}/products`);
-    if (!res.ok) throw new Error();
-    products = await res.json();
+    const res = await fetch(`${API_BASE}/api/products`);
+    const items = await res.json();
+
+    list.innerHTML = items.map(p => `
+      <div class="product">
+        <img src="${p.image || `https://picsum.photos/300?random=${p._id}`}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        <button onclick="addToCart('${p.name}', ${p.price})">
+          Add to Cart
+        </button>
+      </div>
+    `).join("");
   } catch (err) {
-    console.warn("Backend not available");
+    list.innerHTML = "<p>Failed to load products.</p>";
   }
-
-  if (!products.length) {
-    list.innerHTML = "<p>No products available.</p>";
-    return;
-  }
-
-  list.innerHTML = products.map(p => `
-    <div class="product">
-      <img src="${p.image || 'https://picsum.photos/300'}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>$${p.price}</p>
-      <button onclick='addToCart(${JSON.stringify(p)})'>
-        Add to Cart
-      </button>
-    </div>
-  `).join("");
 }
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount();
+  updateCartPage();
+  loadProducts();
+});
 
 
 

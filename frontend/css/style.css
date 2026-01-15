@@ -38,7 +38,7 @@ button {
 }
 
 /* =====================
-   NAVBAR
+   NAVBAR (FIXED)
 ===================== */
 header {
   position: fixed;
@@ -68,10 +68,12 @@ header {
 }
 
 /* =====================
-   PAGE LAYOUT FIX (IMPORTANT)
+   PAGE OFFSET FIX (CRITICAL)
 ===================== */
-main {
-  padding-top: 120px; /* fixes navbar overlap on ALL pages */
+.container {
+  max-width: 1200px;
+  margin: 120px auto 2rem auto; /* pushes content below navbar */
+  padding: 2rem;
 }
 
 /* =====================
@@ -101,8 +103,8 @@ main {
 .hero a {
   padding: 0.8rem 2rem;
   border: 1px solid #000;
-  color: #000;
   background: #fff;
+  color: #000;
   border-radius: 8px;
 }
 
@@ -112,22 +114,12 @@ main {
 }
 
 /* =====================
-   CONTAINER (SINGLE SOURCE)
-===================== */
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 2rem;
-}
-
-/* =====================
    PRODUCTS
 ===================== */
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
-  margin-top: 1.5rem; /* fixes Products title spacing */
 }
 
 .product {
@@ -150,8 +142,8 @@ main {
 }
 
 .product h3 {
+  margin-bottom: 0.5rem;
   color: var(--text);
-  margin-bottom: 0.4rem;
 }
 
 .product p {
@@ -204,7 +196,7 @@ main {
 }
 
 /* =====================
-   FORMS (CONTACT + CHECKOUT)
+   FORMS
 ===================== */
 .contact-form,
 .checkout-form {
@@ -279,4 +271,5 @@ footer {
     font-size: 2rem;
   }
 }
+
 
