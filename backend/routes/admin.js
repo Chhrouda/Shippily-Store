@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import Product from "../models/Product.js";
+
 const router = express.Router();
-const Product = require("../models/Product");
 
 // 🔐 Simple admin key protection
 router.use((req, res, next) => {
@@ -24,18 +25,27 @@ router.post("/products", async (req, res) => {
 
 // ✏️ Update product
 router.put("/products/:id", async (req, res) => {
-  const updated = await Product.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-  res.json(updated);
+  try {
+    const updated = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 // ❌ Delete product
 router.delete("/products/:id", async (req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
-  res.json({ message: "Product deleted" });
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ message: "Product deleted" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
-module.exports = router;
+export default router;
+
