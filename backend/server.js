@@ -57,15 +57,21 @@ app.get("/api/health", (req, res) => {
 // =====================
 // FRONTEND FALLBACK (ALLOW STATIC FILES)
 // =====================
-app.get(/^\/(?!api).*/, (req, res, next) => {
-  // allow real files
-  if (req.path.endsWith(".html")) {
-    return res.sendFile(path.join(frontendPath, req.path));
-  }
+// =====================
+// FRONTEND FALLBACK (PRODUCTION SAFE)
+// =====================
+app.get(/^\/(?!api).*/, (req, res) => {
+  const requestedPath = req.path === "/" ? "index.html" : req.path.slice(1);
+  const filePath = path.join(frontendPath, requestedPath);
 
-  // SPA fallback
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(filePath, err => {
+    if (err) {
+      // fallback to index.html for SPA routes
+      res.sendFile(path.join(frontendPath, "index.html"));
+    }
+  });
 });
+
 
 
 
