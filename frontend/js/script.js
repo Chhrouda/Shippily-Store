@@ -114,7 +114,7 @@ function checkoutCOD() {
   msg += `%0A💰 Total: ${total}$`;
   msg += `%0A📦 Cash on Delivery`;
 
-  const phone = "216XXXXXXXX"; // YOUR NUMBER
+  const phone = "21620342004"; // YOUR NUMBER
   const url = `https://wa.me/${phone}?text=${msg}`;
 
   cart = [];
@@ -151,13 +151,15 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
 
   const form = document.getElementById("checkoutForm");
+
   if (form) {
     form.addEventListener("submit", e => {
       e.preventDefault();
-      checkoutCOD();
+      alert("Card payment coming soon.");
     });
   }
 });
+
 
 
 
