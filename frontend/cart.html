@@ -7,6 +7,7 @@
   <meta name="description" content="Checkout your cart on Shippily Store">
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
 <header>
@@ -26,45 +27,34 @@
 <div class="container">
   <h2>Your Cart</h2>
 
-  <div id="cartItems"></div>
+  <!-- ✅ MUST MATCH JS -->
+  <div id="cart-items"></div>
 
   <h3 style="margin-top:1.5rem;">
-    Total: $<span id="cartTotal">0.00</span>
+    Total: <span id="cart-total">0 TND</span>
   </h3>
 
   <hr style="margin:2rem 0;">
 
   <h2>Checkout</h2>
 
-  <form id="checkoutForm" class="checkout-form">
-    <label>
-      Full Name
-      <input type="text" name="name" required>
-    </label>
+  <p>✅ Paiement à la livraison</p>
+  <p>🚚 Livraison 24–72h partout en Tunisie</p>
 
-    <label>
-      Email
-      <input type="email" name="email" required>
-    </label>
-
-    <label>
-      Address
-      <textarea name="address" rows="3" required></textarea>
-    </label>
-
-    <button type="submit" id="payBtn">Pay with Card</button>
-  </form>
+  <button onclick="checkoutCOD()" style="margin-top:1rem;">
+    Commander via WhatsApp
+  </button>
 </div>
 
 <a href="cart.html" class="floating-cart">
   Cart (<span id="floatingCount">0</span>)
 </a>
 
-<!-- ✅ include ONCE only -->
 <script src="js/script.js"></script>
 
 </body>
 </html>
+
 
 
 

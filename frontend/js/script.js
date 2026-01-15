@@ -1,111 +1,102 @@
-// ================= CONFIG =================
-const API_BASE = ""; // same-origin (Render-safe)
+/* =========================
+   CART STATE
+========================= */
 
-// ================= GLOBAL CART =================
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ================= HELPERS =================
+/* =========================
+   HELPERS
+========================= */
+
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function getCartCount() {
-  return cart.reduce((sum, item) => sum + item.quantity, 0);
-}
-
 function updateCartCount() {
-  const count = getCartCount();
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  const cartCount = document.getElementById("cartCount");
+  const navCount = document.getElementById("cartCount");
   const floatingCount = document.getElementById("floatingCount");
 
-  if (cartCount) cartCount.textContent = count;
+  if (navCount) navCount.textContent = count;
   if (floatingCount) floatingCount.textContent = count;
 }
 
-// ================= CART UI LOGIC =================
-function updateCartPage() {
-  const cartItems = document.getElementById("cartItems");
-  const cartTotal = document.getElementById("cartTotal");
-  const checkoutSection = document.getElementById("checkoutSection");
+/* =========================
+   ADD TO CART LOGIC
+========================= */
 
-  if (!cartItems || !cartTotal) return;
-
-  if (cart.length === 0) {
-    cartItems.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotal.textContent = "0.00";
-    if (checkoutSection) checkoutSection.style.display = "none";
-    return;
-  }
-
-  let total = 0;
-
-  cartItems.innerHTML = cart.map((item, index) => {
-    total += item.price * item.quantity;
-    return `
-      <div class="cart-item">
-        <strong>${item.name}</strong>
-        <p>$${item.price} × ${item.quantity}</p>
-        <button onclick="removeFromCart(${index})">Remove</button>
-      </div>
-    `;
-  }).join("");
-
-  cartTotal.textContent = total.toFixed(2);
-  if (checkoutSection) checkoutSection.style.display = "block";
-}
-
-// ================= CART ACTIONS =================
 function addToCart(name, price) {
-  const existing = cart.find(p => p.name === name);
+  const existing = cart.find(item => item.name === name);
 
   if (existing) {
     existing.quantity += 1;
   } else {
-    cart.push({ name, price, quantity: 1 });
+    cart.push({
+      name,
+      price,
+      quantity: 1
+    });
   }
 
   saveCart();
   updateCartCount();
 }
 
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  saveCart();
-  updateCartCount();
-  updateCartPage();
+/* =========================
+   BIND BUTTONS
+========================= */
+
+function bindAddToCartButtons() {
+  const buttons = document.querySelectorAll(".addToCart");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const product = button.closest(".product");
+
+      const name = product.dataset.name;
+      const price = Number(product.dataset.price);
+
+      addToCart(name, price);
+    });
+  });
 }
 
-// ================= PRODUCTS PAGE =================
-async function loadProducts() {
-  const list = document.getElementById("productList");
-  if (!list) return;
+/* =========================
+   CART PAGE (OPTIONAL SAFE)
+========================= */
 
-  try {
-    const res = await fetch(`${API_BASE}/api/products`);
-    const items = await res.json();
+function updateCartPage() {
+  const container = document.getElementById("cart-items");
+  const totalEl = document.getElementById("cart-total");
 
-    list.innerHTML = items.map(p => `
-      <div class="product">
-        <img src="${p.image || `https://picsum.photos/300?random=${p._id}`}">
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        <button onclick="addToCart('${p.name}', ${p.price})">
-          Add to Cart
-        </button>
-      </div>
-    `).join("");
-  } catch (err) {
-    list.innerHTML = "<p>Failed to load products.</p>";
-  }
+  if (!container || !totalEl) return;
+
+  container.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price * item.quantity;
+
+    const div = document.createElement("div");
+    div.textContent = `${item.name} x${item.quantity} — ${item.price * item.quantity} TND`;
+    container.appendChild(div);
+  });
+
+  totalEl.textContent = total + " TND";
 }
 
-// ================= INIT =================
+/* =========================
+   INIT
+========================= */
+
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
+  bindAddToCartButtons();
   updateCartPage();
-  loadProducts();
 });
+
 
 
 
