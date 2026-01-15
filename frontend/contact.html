@@ -31,24 +31,33 @@
     Have feedback or questions? We’d love to hear from you.
   </p>
 
-  <form class="contact-form">
+  <form class="contact-form" onsubmit="sendContactWhatsApp(event)">
     <label>
       Name
-      <input type="text" placeholder="Your name" required />
+      <input type="text" id="contactName" placeholder="Your name" required />
     </label>
 
     <label>
       Email
-      <input type="email" placeholder="your@email.com" required />
+      <input type="email" id="contactEmail" placeholder="your@email.com" required />
     </label>
 
     <label>
       Feedback
-      <textarea rows="5" placeholder="Write your message here..." required></textarea>
+      <textarea id="contactMessage" rows="5" placeholder="Write your message here..." required></textarea>
     </label>
 
+    <!-- EXISTING BUTTON (unchanged) -->
     <button type="submit">Send Feedback</button>
   </form>
+
+  <!-- ✅ ADDED: WhatsApp quick contact (same visual weight) -->
+  <p style="margin-top:1rem; color:#555;">
+    💬 Or contact us directly on
+    <a href="https://wa.me/216XXXXXXXX" target="_blank" style="font-weight:600;">
+      WhatsApp
+    </a>
+  </p>
 </div>
 
 <a href="cart.html" class="floating-cart">
@@ -64,5 +73,6 @@
 
 </body>
 </html>
+
 
 

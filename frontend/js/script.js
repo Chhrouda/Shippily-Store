@@ -96,6 +96,51 @@ document.addEventListener("DOMContentLoaded", () => {
   bindAddToCartButtons();
   updateCartPage();
 });
+function checkoutCOD() {
+  if (cart.length === 0) {
+    alert("Your cart is empty");
+    return;
+  }
+
+  let message = "🛒 Nouvelle commande:%0A%0A";
+
+  cart.forEach(item => {
+    message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity} TND%0A`;
+  });
+
+  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  message += `%0A💰 Total: ${total} TND`;
+  message += `%0A📍 Paiement à la livraison`;
+
+  const phone = "21620342004"; // 🔴 CHANGE THIS
+  const url = `https://wa.me/${phone}?text=${message}`;
+
+  cart = [];
+  saveCart();
+  updateCartCount();
+  updateCartPage();
+
+  window.open(url, "_blank");
+}
+function sendContactWhatsApp(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("contactName").value;
+  const email = document.getElementById("contactEmail").value;
+  const message = document.getElementById("contactMessage").value;
+
+  const text =
+    `📩 Nouveau message contact:%0A%0A` +
+    `👤 Name: ${name}%0A` +
+    `📧 Email: ${email}%0A` +
+    `💬 Message:%0A${message}`;
+
+  const phone = "216XXXXXXXX"; // SAME NUMBER
+  const url = `https://wa.me/${phone}?text=${text}`;
+
+  window.open(url, "_blank");
+}
 
 
 
