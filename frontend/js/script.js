@@ -40,9 +40,11 @@ function addToCart(name, price) {
 }
 
 /* =========================
-   REMOVE ONE (FIXED)
+   REMOVE ONE ITEM (FIXED)
 ========================= */
 function removeFromCart(index) {
+  if (!cart[index]) return;
+
   if (cart[index].quantity > 1) {
     cart[index].quantity -= 1;
   } else {
@@ -53,6 +55,9 @@ function removeFromCart(index) {
   updateCartCount();
   updateCartPage();
 }
+
+/* 🔴 MAKE IT GLOBAL (IMPORTANT FIX) */
+window.removeFromCart = removeFromCart;
 
 /* =========================
    RENDER CART PAGE
@@ -113,10 +118,11 @@ function checkoutCOD() {
   });
 
   const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
   message += `%0A💰 Total: ${total}$`;
   message += `%0A📦 Payment: Cash on Delivery`;
 
-  const phone = "21620342004"; // ← PUT YOUR NUMBER
+  const phone = "21620342004"; // ← your WhatsApp number
   const url = `https://wa.me/${phone}?text=${message}`;
 
   cart = [];
@@ -126,6 +132,9 @@ function checkoutCOD() {
 
   window.open(url, "_blank");
 }
+
+/* 🔴 MAKE IT GLOBAL */
+window.checkoutCOD = checkoutCOD;
 
 /* =========================
    INIT
@@ -152,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   updateCartPage();
 });
+
 
 
 
