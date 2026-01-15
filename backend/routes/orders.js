@@ -1,9 +1,10 @@
 
-const express = require("express");
-const router = express.Router();
-const Order = require("../models/Order");
+import express from "express";
+import Order from "../models/Order.js";
 
-// Create order
+const router = express.Router();
+
+// ➕ Create order
 router.post("/", async (req, res) => {
   try {
     const { items, total } = req.body;
@@ -14,20 +15,27 @@ router.post("/", async (req, res) => {
     res.status(201).json({ success: true, order });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Failed to create order" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to create order"
+    });
   }
 });
 
-// Optional: list orders (for testing)
+// 📦 List orders (for admin/testing)
 router.get("/", async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json({ success: true, orders });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Failed to fetch orders" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch orders"
+    });
   }
 });
 
-module.exports = router;
+export default router;
+
 
