@@ -1,4 +1,60 @@
+/* =====================
+   CART STATE
+===================== */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* =====================
+   TRANSLATIONS
+===================== */
+const translations = {
+  en: {
+    home: "Home",
+    products: "Products",
+    cart: "Cart",
+    contact: "Contact",
+
+    home_title: "Best Tunisian E-commerce Store",
+    home_sub: "Premium products built for trust, quality, and scale.",
+    explore: "Explore Products",
+
+    cart_title: "Your Cart",
+    contact_title: "Contact Us",
+    remove: "Remove",
+    pay_cod: "Pay on Delivery"
+  },
+
+  fr: {
+    home: "Accueil",
+    products: "Produits",
+    cart: "Panier",
+    contact: "Contact",
+
+    home_title: "La meilleure boutique e-commerce tunisienne",
+    home_sub: "Produits premium basés sur la confiance et la qualité.",
+    explore: "Voir les produits",
+
+    cart_title: "Votre panier",
+    contact_title: "Contactez-nous",
+    remove: "Supprimer",
+    pay_cod: "Paiement à la livraison"
+  },
+
+  tn: {
+    home: "الرئيسية",
+    products: "البرودوي",
+    cart: "السلة",
+    contact: "إتصل بينا",
+
+    home_title: "أحسن متجر تونسي أونلاين",
+    home_sub: "منتوجات مضمونة، جودة وثقة.",
+    explore: "شوف البرودوي",
+
+    cart_title: "السلة متاعك",
+    contact_title: "إتصل بينا",
+    remove: "نحّي",
+    pay_cod: "خلاص عند التسليم"
+  }
+};
 
 /* =====================
    HELPERS
@@ -15,7 +71,7 @@ function updateCartCount() {
 }
 
 /* =====================
-   ADD / REMOVE
+   ADD / REMOVE CART
 ===================== */
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
@@ -53,15 +109,19 @@ function renderCart() {
   container.innerHTML = "";
   let total = 0;
 
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang];
+
   cart.forEach(item => {
-    total += item.price * item.quantity;
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
 
     const div = document.createElement("div");
     div.className = "cart-item";
     div.innerHTML = `
       <strong>${item.name} x${item.quantity}</strong>
-      <span>${item.price * item.quantity} TND</span>
-      <button class="remove-btn">Remove</button>
+      <span>${lineTotal.toFixed(2)} TND</span>
+      <button class="remove-btn">${t.remove}</button>
     `;
 
     div.querySelector(".remove-btn").addEventListener("click", () => {
@@ -75,11 +135,11 @@ function renderCart() {
 }
 
 /* =====================
-   WHATSAPP COD
+   WHATSAPP – PAY ON DELIVERY
 ===================== */
 function checkoutCOD() {
   if (cart.length === 0) {
-    alert("Your cart is empty");
+    alert("Cart is empty");
     return;
   }
 
@@ -95,10 +155,60 @@ function checkoutCOD() {
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
-  const phone = "21620342004"; // ❗ ONLY numbers
+  const phone = "21620342004"; // ONLY numbers
   const url = `https://wa.me/${phone}?text=${message}`;
 
   window.open(url, "_blank");
+}
+
+/* =====================
+   CONTACT FORM → WHATSAPP
+===================== */
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const name = form.querySelector('input[type="text"]').value.trim();
+    const email = form.querySelector('input[type="email"]').value.trim();
+    const msg = form.querySelector("textarea").value.trim();
+
+    if (!name || !email || !msg) {
+      alert("Fill all fields");
+      return;
+    }
+
+    const phone = "21620342004";
+    const text =
+      `📩 New Message\n\n` +
+      `👤 ${name}\n📧 ${email}\n\n💬 ${msg}`;
+
+    const url =
+      "https://wa.me/" +
+      phone +
+      "?text=" +
+      encodeURIComponent(text);
+
+    window.open(url, "_blank");
+    form.reset();
+  });
+}
+
+/* =====================
+   TRANSLATION ENGINE
+===================== */
+function applyTranslation() {
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang];
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
 }
 
 /* =====================
@@ -107,6 +217,8 @@ function checkoutCOD() {
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
+  applyTranslation();
+  initContactForm();
 
   document.querySelectorAll(".addToCart").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -122,42 +234,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (codBtn) {
     codBtn.addEventListener("click", checkoutCOD);
   }
-});
-document.addEventListener("DOMContentLoaded", function () {
-  const contactForm = document.getElementById("contactForm");
-
-  if (!contactForm) return;
-
-  contactForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const name = contactForm.querySelector('input[type="text"]').value.trim();
-    const email = contactForm.querySelector('input[type="email"]').value.trim();
-    const message = contactForm.querySelector("textarea").value.trim();
-
-    if (!name || !email || !message) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const phone = "21620342004"; // ⚠️ YOUR NUMBER — no +, no spaces
-
-    const text =
-      `📩 New Contact Message\n\n` +
-      `👤 Name: ${name}\n` +
-      `📧 Email: ${email}\n` +
-      `💬 Message:\n${message}`;
-
-    const url =
-      "https://wa.me/" +
-      phone +
-      "?text=" +
-      encodeURIComponent(text);
-
-    window.open(url, "_blank");
-
-    contactForm.reset();
-  });
 });
 
 

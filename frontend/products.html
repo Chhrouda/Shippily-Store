@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Shippily Store - Fast & Reliable Shipping" />
-  <title>Products</title>
+  <title data-i18n="products">Products</title>
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -15,86 +15,89 @@
   <div class="nav">
     <strong>Shippily</strong>
     <div>
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
+      <a href="index.html" data-i18n="home">Home</a>
+      <a href="products.html" data-i18n="products">Products</a>
+
       <a href="cart.html" class="cart-link">
-        Cart (<span id="cartCount">0</span>)
+        <span data-i18n="cart">Cart</span> (<span id="cartCount">0</span>)
       </a>
-      <a href="contact.html">Contact</a>
+
+      <a href="contact.html" data-i18n="contact">Contact</a>
     </div>
   </div>
 </header>
 
 <div class="container">
-  <h2>Products</h2>
+  <h2 data-i18n="products">Products</h2>
 
   <div id="products-error" class="error"></div>
 
   <div class="products" id="products-list">
-    <!-- FALLBACK 8 PRODUCTS (if backend fails) -->
+
     <div class="product" data-name="Backpack" data-price="12">
       <img src="https://picsum.photos/300?1" />
-      <h3>Backpack</h3>
-      <p>TND12</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_backpack">Backpack</h3>
+      <p data-i18n="price_12">TND 12</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Watch" data-price="22">
       <img src="https://picsum.photos/300?2" />
-      <h3>Watch</h3>
-      <p>TND22</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_watch">Watch</h3>
+      <p data-i18n="price_22">TND 22</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Headphones" data-price="31">
       <img src="https://picsum.photos/300?3" />
-      <h3>Headphones</h3>
-      <p>TND31</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_headphones">Headphones</h3>
+      <p data-i18n="price_31">TND 31</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Shoes" data-price="18">
       <img src="https://picsum.photos/300?4" />
-      <h3>Shoes</h3>
-      <p>TND18</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_shoes">Shoes</h3>
+      <p data-i18n="price_18">TND 18</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Jacket" data-price="26">
       <img src="https://picsum.photos/300?5" />
-      <h3>Jacket</h3>
-      <p>TND26</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_jacket">Jacket</h3>
+      <p data-i18n="price_26">TND 26</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Sunglasses" data-price="29">
       <img src="https://picsum.photos/300?6" />
-      <h3>Sunglasses</h3>
-      <p>TND29</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_sunglasses">Sunglasses</h3>
+      <p data-i18n="price_29">TND 29</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Laptop Bag" data-price="15">
       <img src="https://picsum.photos/300?7" />
-      <h3>Laptop Bag</h3>
-      <p>TND15</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_laptopbag">Laptop Bag</h3>
+      <p data-i18n="price_15">TND 15</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
     <div class="product" data-name="Wallet" data-price="70">
       <img src="https://picsum.photos/300?8" />
-      <h3>Wallet</h3>
-      <p>TND70</p>
-      <button class="addToCart">Add to Cart</button>
+      <h3 data-i18n="product_wallet">Wallet</h3>
+      <p data-i18n="price_70">TND 70</p>
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
+
   </div>
 </div>
 
 <a href="cart.html" class="floating-cart">
-  Cart (<span id="floatingCount">0</span>)
+  <span data-i18n="cart">Cart</span> (<span id="floatingCount">0</span>)
 </a>
 
-<footer>
+<footer data-i18n="footer">
   © 2025 Shippily Store
 </footer>
 
@@ -102,6 +105,7 @@
 
 </body>
 </html>
+
 
 
 
