@@ -2,7 +2,7 @@
    CART STATE
 ===================== */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-const API_URL = "https://your-backend.onrender.com";
+const API_URL = "https://backend.onrender.com";
 
 /* =====================
    TRANSLATIONS
