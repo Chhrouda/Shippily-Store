@@ -274,32 +274,44 @@ footer {
 /* ===== HERO SECTION (FORCED BACKGROUND FIX) ===== */
 
 .hero {
+  position: relative;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Background image with blur */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url("../images/noelle-guirola-5NqUXa6pZDM-unsplash.jpg");
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  filter: blur(6px); /* 👈 increase blur here */
+  transform: scale(1.1); /* prevents white edges */
+  z-index: 0;
 }
 
-.hero-content {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(6px);
+/* Dark overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+
+/* Content box */
+.hero-box {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
   padding: 4rem;
-  border-radius: 14px;
+  border-radius: 16px;
   text-align: center;
+  max-width: 700px;
 }
 
-.hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
 
 .btn {
   padding: 12px 24px;
