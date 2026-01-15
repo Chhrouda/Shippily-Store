@@ -160,6 +160,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// ===============================
+// PAY ON DELIVERY (WHATSAPP)
+// CSP-SAFE VERSION
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+  const codBtn = document.getElementById("codBtn");
+
+  if (!codBtn) return;
+
+  codBtn.addEventListener("click", () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
+
+    let message = "🛒 New Order:%0A%0A";
+
+    cart.forEach(item => {
+      message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity}$%0A`;
+    });
+
+    const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    message += `%0A💰 Total: ${total}$`;
+    message += `%0A📦 Payment: Cash on Delivery`;
+
+    const phone = "216XXXXXXXX"; // ← YOUR NUMBER
+    const url = `https://wa.me/${phone}?text=${message}`;
+
+    localStorage.removeItem("cart");
+
+    window.open(url, "_blank");
+  });
+});
 
 
 
