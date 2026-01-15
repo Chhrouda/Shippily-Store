@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Select Language — Shippily</title>
 
-  <!-- Use main site styles -->
+  <!-- Main site styles -->
   <link rel="stylesheet" href="css/style.css" />
 
   <style>
@@ -16,6 +16,7 @@
       align-items: center;
       justify-content: center;
       background: #f7f7f7;
+      font-family: inherit;
     }
 
     .lang-box {
@@ -57,20 +58,27 @@
 
 <body>
 
-  <div class="lang-box">
-    <h1>Choose your language</h1>
+<!-- 🔒 AUTO-REDIRECT IF LANGUAGE EXISTS -->
+<script>
+  if (localStorage.getItem("lang")) {
+    window.location.replace("index.html");
+  }
+</script>
 
-    <button class="lang-btn" onclick="setLang('tn')">🇹🇳 تونسي</button>
-    <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
-    <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
-  </div>
+<div class="lang-box">
+  <h1>Choose your language</h1>
 
-  <script>
-    function setLang(lang) {
-      localStorage.setItem("lang", lang);
-      window.location.href = "index.html";
-    }
-  </script>
+  <button class="lang-btn" onclick="setLang('tn')">🇹🇳 تونسي</button>
+  <button class="lang-btn" onclick="setLang('fr')">🇫🇷 Français</button>
+  <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<script>
+  function setLang(lang) {
+    localStorage.setItem("lang", lang);
+    window.location.replace("index.html");
+  }
+</script>
 
 </body>
 </html>
