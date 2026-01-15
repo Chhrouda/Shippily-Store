@@ -1,8 +1,12 @@
 /* =====================
+   CONFIG
+===================== */
+const API_URL = "https://shippily-store.onrender.com";
+
+/* =====================
    CART STATE
 ===================== */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-const API_URL = "https://backend.onrender.com";
 
 /* =====================
    TRANSLATIONS
@@ -18,10 +22,14 @@ const translations = {
     home_sub: "Premium products built for trust, quality, and scale.",
     explore: "Explore Products",
 
+    products_title: "Products",
     cart_title: "Your Cart",
+    checkout_title: "Checkout",
     contact_title: "Contact Us",
+
     remove: "Remove",
-    pay_cod: "Pay on Delivery"
+    pay_cod: "Pay on Delivery",
+    empty_cart: "Your cart is empty"
   },
 
   fr: {
@@ -34,10 +42,14 @@ const translations = {
     home_sub: "Produits premium basés sur la confiance et la qualité.",
     explore: "Voir les produits",
 
+    products_title: "Produits",
     cart_title: "Votre panier",
+    checkout_title: "Paiement",
     contact_title: "Contactez-nous",
+
     remove: "Supprimer",
-    pay_cod: "Paiement à la livraison"
+    pay_cod: "Paiement à la livraison",
+    empty_cart: "Votre panier est vide"
   },
 
   tn: {
@@ -50,10 +62,14 @@ const translations = {
     home_sub: "منتوجات مضمونة، جودة وثقة.",
     explore: "شوف البرودوي",
 
+    products_title: "البرودوي",
     cart_title: "السلة متاعك",
+    checkout_title: "الخلاص",
     contact_title: "إتصل بينا",
+
     remove: "نحّي",
-    pay_cod: "خلاص عند التسليم"
+    pay_cod: "خلاص عند التسليم",
+    empty_cart: "السلة فارغة"
   }
 };
 
@@ -72,12 +88,12 @@ function updateCartCount() {
 }
 
 /* =====================
-   ADD / REMOVE CART
+   CART ACTIONS
 ===================== */
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
   if (item) {
-    item.quantity += 1;
+    item.quantity++;
   } else {
     cart.push({ name, price, quantity: 1 });
   }
@@ -89,7 +105,7 @@ function removeOne(name) {
   const item = cart.find(p => p.name === name);
   if (!item) return;
 
-  item.quantity -= 1;
+  item.quantity--;
   if (item.quantity <= 0) {
     cart = cart.filter(p => p.name !== name);
   }
@@ -107,11 +123,17 @@ function renderCart() {
   const totalEl = document.getElementById("cartTotal");
   if (!container || !totalEl) return;
 
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang];
+
   container.innerHTML = "";
   let total = 0;
 
-  const lang = localStorage.getItem("lang") || "en";
-  const t = translations[lang];
+  if (cart.length === 0) {
+    container.innerHTML = `<p>${t.empty_cart}</p>`;
+    totalEl.textContent = "0.00";
+    return;
+  }
 
   cart.forEach(item => {
     const lineTotal = item.price * item.quantity;
@@ -125,10 +147,7 @@ function renderCart() {
       <button class="remove-btn">${t.remove}</button>
     `;
 
-    div.querySelector(".remove-btn").addEventListener("click", () => {
-      removeOne(item.name);
-    });
-
+    div.querySelector(".remove-btn").onclick = () => removeOne(item.name);
     container.appendChild(div);
   });
 
@@ -136,11 +155,14 @@ function renderCart() {
 }
 
 /* =====================
-   WHATSAPP – PAY ON DELIVERY
+   WHATSAPP COD
 ===================== */
 function checkoutCOD() {
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang];
+
   if (cart.length === 0) {
-    alert("Cart is empty");
+    alert(t.empty_cart);
     return;
   }
 
@@ -149,21 +171,21 @@ function checkoutCOD() {
 
   cart.forEach(item => {
     const lineTotal = item.price * item.quantity;
-    message += `• ${item.name} x${item.quantity} = ${lineTotal} TND%0A`;
     total += lineTotal;
+    message += `• ${item.name} x${item.quantity} = ${lineTotal} TND%0A`;
   });
 
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
-  const phone = "21620342004"; // ONLY numbers
-  const url = `https://wa.me/${phone}?text=${message}`;
-
-  window.open(url, "_blank");
+  window.open(
+    `https://wa.me/21620342004?text=${message}`,
+    "_blank"
+  );
 }
 
 /* =====================
-   CONTACT FORM → WHATSAPP
+   CONTACT FORM
 ===================== */
 function initContactForm() {
   const form = document.getElementById("contactForm");
@@ -172,27 +194,18 @@ function initContactForm() {
   form.addEventListener("submit", e => {
     e.preventDefault();
 
-    const name = form.querySelector('input[type="text"]').value.trim();
-    const email = form.querySelector('input[type="email"]').value.trim();
+    const name = form.querySelector("input[type=text]").value.trim();
+    const email = form.querySelector("input[type=email]").value.trim();
     const msg = form.querySelector("textarea").value.trim();
 
-    if (!name || !email || !msg) {
-      alert("Fill all fields");
-      return;
-    }
+    if (!name || !email || !msg) return;
 
-    const phone = "21620342004";
-    const text =
-      `📩 New Message\n\n` +
-      `👤 ${name}\n📧 ${email}\n\n💬 ${msg}`;
+    const text = `📩 New Message\n\n👤 ${name}\n📧 ${email}\n\n💬 ${msg}`;
+    window.open(
+      `https://wa.me/21620342004?text=${encodeURIComponent(text)}`,
+      "_blank"
+    );
 
-    const url =
-      "https://wa.me/" +
-      phone +
-      "?text=" +
-      encodeURIComponent(text);
-
-    window.open(url, "_blank");
     form.reset();
   });
 }
@@ -205,10 +218,8 @@ function applyTranslation() {
   const t = translations[lang];
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");
-    if (t[key]) {
-      el.textContent = t[key];
-    }
+    const key = el.dataset.i18n;
+    if (t[key]) el.textContent = t[key];
   });
 }
 
@@ -222,20 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
 
   document.querySelectorAll(".addToCart").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.onclick = () => {
       const product = btn.closest(".product");
-      addToCart(
-        product.dataset.name,
-        Number(product.dataset.price)
-      );
-    });
+      addToCart(product.dataset.name, Number(product.dataset.price));
+    };
   });
 
   const codBtn = document.getElementById("codBtn");
-  if (codBtn) {
-    codBtn.addEventListener("click", checkoutCOD);
-  }
+  if (codBtn) codBtn.onclick = checkoutCOD;
 });
+
 
 
 
