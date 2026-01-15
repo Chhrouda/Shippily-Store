@@ -98,32 +98,33 @@ function renderCart() {
 /* =========================
    PAY ON DELIVERY
 ========================= */
-function checkoutCOD() {
+window.checkoutCOD = function () {
   if (cart.length === 0) {
     alert("Your cart is empty");
     return;
   }
 
-  let msg = "🛒 New Order:%0A%0A";
+  let message = "🛒 New Order:%0A%0A";
 
-  cart.forEach(i => {
-    msg += `• ${i.name} x${i.quantity} = ${i.price * i.quantity}$%0A`;
+  cart.forEach(item => {
+    message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity}$%0A`;
   });
 
-  const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  msg += `%0A💰 Total: ${total}$`;
-  msg += `%0A📦 Cash on Delivery`;
+  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  message += `%0A💰 Total: ${total}$`;
+  message += `%0A📦 Payment: Cash on Delivery`;
 
-  const phone = "21620342004"; // YOUR NUMBER
-  const url = `https://wa.me/${phone}?text=${msg}`;
+  const phone = "21620342004"; // REAL NUMBER
+  const url = `https://wa.me/${phone}?text=${message}`;
 
   cart = [];
   saveCart();
   updateCartCount();
-  renderCart();
+  updateCartPage();
 
   window.open(url, "_blank");
-}
+};
+
 
 /* =========================
    EVENTS (THE KEY PART)
