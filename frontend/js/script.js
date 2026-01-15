@@ -1,31 +1,31 @@
 /* =========================
    CART STATE
 ========================= */
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* =========================
-   HELPERS
+   SAVE / LOAD
 ========================= */
-
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+/* =========================
+   UPDATE COUNTS
+========================= */
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  const navCount = document.getElementById("cartCount");
+  const cartCount = document.getElementById("cartCount");
   const floatingCount = document.getElementById("floatingCount");
 
-  if (navCount) navCount.textContent = count;
+  if (cartCount) cartCount.textContent = count;
   if (floatingCount) floatingCount.textContent = count;
 }
 
 /* =========================
-   ADD TO CART LOGIC
+   ADD TO CART
 ========================= */
-
 function addToCart(name, price) {
   const existing = cart.find(item => item.name === name);
 
@@ -44,58 +44,78 @@ function addToCart(name, price) {
 }
 
 /* =========================
-   BIND BUTTONS
+   PRODUCTS PAGE BINDING
 ========================= */
-
-function bindAddToCartButtons() {
-  const buttons = document.querySelectorAll(".addToCart");
-
-  buttons.forEach(button => {
-    button.addEventListener("click", () => {
-      const product = button.closest(".product");
-
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".addToCart").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const product = btn.closest(".product");
       const name = product.dataset.name;
       const price = Number(product.dataset.price);
 
       addToCart(name, price);
     });
   });
-}
+
+  updateCartCount();
+  updateCartPage();
+});
 
 /* =========================
-   CART PAGE (OPTIONAL SAFE)
+   RENDER CART PAGE (FIX)
 ========================= */
-
 function updateCartPage() {
-  const container = document.getElementById("cart-items");
-  const totalEl = document.getElementById("cart-total");
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
 
-  if (!container || !totalEl) return;
+  if (!cartItems || !cartTotal) return;
 
-  container.innerHTML = "";
+  cartItems.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = `
+      <p style="color:#555; padding:1rem 0;">
+        Your cart is empty.
+      </p>
+    `;
+    cartTotal.textContent = "0.00";
+    return;
+  }
 
   let total = 0;
 
-  cart.forEach(item => {
+  cart.forEach((item, index) => {
     total += item.price * item.quantity;
 
     const div = document.createElement("div");
-    div.textContent = `${item.name} x${item.quantity} — ${item.price * item.quantity} TND`;
-    container.appendChild(div);
+    div.className = "cart-item";
+
+    div.innerHTML = `
+      <strong>${item.name}</strong>
+      <span>x${item.quantity}</span>
+      <span>$${(item.price * item.quantity).toFixed(2)}</span>
+      <button onclick="removeFromCart(${index})">Remove</button>
+    `;
+
+    cartItems.appendChild(div);
   });
 
-  totalEl.textContent = total + " TND";
+  cartTotal.textContent = total.toFixed(2);
 }
 
 /* =========================
-   INIT
+   REMOVE ITEM
 ========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  saveCart();
   updateCartCount();
-  bindAddToCartButtons();
   updateCartPage();
-});
+}
+
+/* =========================
+   WHATSAPP CHECKOUT (COD)
+========================= */
 function checkoutCOD() {
   if (cart.length === 0) {
     alert("Your cart is empty");
@@ -109,11 +129,10 @@ function checkoutCOD() {
   });
 
   const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
-
-  message += `%0A💰 Total: ${total} TND`;
+  message += `%0A💰 Total: ${total} TND%0A`;
   message += `%0A📍 Paiement à la livraison`;
 
-  const phone = "21620342004"; // 🔴 CHANGE THIS
+  const phone = "216XXXXXXXX"; // ⚠️ YOUR NUMBER
   const url = `https://wa.me/${phone}?text=${message}`;
 
   cart = [];
@@ -123,6 +142,10 @@ function checkoutCOD() {
 
   window.open(url, "_blank");
 }
+
+/* =========================
+   CONTACT → WHATSAPP
+========================= */
 function sendContactWhatsApp(e) {
   e.preventDefault();
 
@@ -136,11 +159,12 @@ function sendContactWhatsApp(e) {
     `📧 Email: ${email}%0A` +
     `💬 Message:%0A${message}`;
 
-  const phone = "216XXXXXXXX"; // SAME NUMBER
+  const phone = "21620342004"; // SAME NUMBER
   const url = `https://wa.me/${phone}?text=${text}`;
 
   window.open(url, "_blank");
 }
+
 
 
 
