@@ -123,38 +123,43 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
-function sendContactWhatsApp(e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+  const contactForm = document.getElementById("contactForm");
 
-  const form = e.target;
+  if (!contactForm) return;
 
-  const name = form.querySelector('input[type="text"]').value.trim();
-  const email = form.querySelector('input[type="email"]').value.trim();
-  const message = form.querySelector('textarea').value.trim();
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  if (!name || !email || !message) {
-    alert("Please fill all fields");
-    return;
-  }
+    const name = contactForm.querySelector('input[type="text"]').value.trim();
+    const email = contactForm.querySelector('input[type="email"]').value.trim();
+    const message = contactForm.querySelector("textarea").value.trim();
 
-  const phone = "21620342004"; // ⚠️ REPLACE WITH YOUR NUMBER (NO +, NO SPACES)
+    if (!name || !email || !message) {
+      alert("Please fill all fields");
+      return;
+    }
 
-  const text =
-    `📩 New Contact Message\n\n` +
-    `👤 Name: ${name}\n` +
-    `📧 Email: ${email}\n` +
-    `💬 Message:\n${message}`;
+    const phone = "21620342004"; // ⚠️ YOUR NUMBER — no +, no spaces
 
-  const url =
-    "https://wa.me/" +
-    phone +
-    "?text=" +
-    encodeURIComponent(text);
+    const text =
+      `📩 New Contact Message\n\n` +
+      `👤 Name: ${name}\n` +
+      `📧 Email: ${email}\n` +
+      `💬 Message:\n${message}`;
 
-  window.open(url, "_blank");
+    const url =
+      "https://wa.me/" +
+      phone +
+      "?text=" +
+      encodeURIComponent(text);
 
-  form.reset();
-}
+    window.open(url, "_blank");
+
+    contactForm.reset();
+  });
+});
+
 
 
 
