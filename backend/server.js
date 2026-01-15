@@ -55,12 +55,19 @@ app.get("/api/health", (req, res) => {
 });
 
 // =====================
-// FRONTEND FALLBACK
+// FRONTEND FALLBACK (ALLOW STATIC FILES)
 // =====================
 app.get(/^\/(?!api).*/, (req, res, next) => {
-  if (req.path.includes(".")) return next();
+  // allow real files
+  if (req.path.endsWith(".html")) {
+    return res.sendFile(path.join(frontendPath, req.path));
+  }
+
+  // SPA fallback
   res.sendFile(path.join(frontendPath, "index.html"));
 });
+
+
 
 // =====================
 app.listen(PORT, () => {
