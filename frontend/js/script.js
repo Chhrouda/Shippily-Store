@@ -95,7 +95,7 @@ function checkoutCOD() {
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
-  const phone = "216XXXXXXXX"; // ❗ ONLY numbers
+  const phone = "21620342004"; // ❗ ONLY numbers
   const url = `https://wa.me/${phone}?text=${message}`;
 
   window.open(url, "_blank");
