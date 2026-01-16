@@ -67,12 +67,12 @@ const translations = {
 /* =====================
    LANGUAGE ENFORCEMENT
 ===================== */
-(function enforceLanguage() {
+(function () {
   const lang = localStorage.getItem("lang");
   const isLangPage = window.location.pathname.endsWith("lang.html");
 
   if (!lang && !isLangPage) {
-    window.location.replace("/lang.html");
+    window.location.replace("lang.html");
   }
 })();
 
@@ -85,8 +85,8 @@ function saveCart() {
 
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.querySelectorAll("#cartCount, #floatingCount").forEach(el => {
-    if (el) el.textContent = count;
+  document.querySelectorAll("#cartCount").forEach(el => {
+    el.textContent = count;
   });
 }
 
@@ -239,7 +239,7 @@ function initLanguageSwitcher() {
 
     btn.addEventListener("click", () => {
       localStorage.setItem("lang", btnLang);
-      location.reload();
+      window.location.href = "index.html";
     });
   });
 }
@@ -252,7 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   applyTranslation();
   initContactForm();
-  applySEO();
   initLanguageSwitcher();
 
   document.querySelectorAll(".addToCart").forEach(btn => {
@@ -270,34 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
-function applySEO() {
-  const lang = localStorage.getItem("lang") || "en";
 
-  const seo = {
-    en: {
-      title: "Shippily Store – Fast Tunisian E-commerce",
-      desc: "Fast and reliable Tunisian online store."
-    },
-    fr: {
-      title: "Shippily Store – Boutique tunisienne en ligne",
-      desc: "Boutique e-commerce tunisienne rapide et fiable."
-    },
-    tn: {
-      title: "Shيبلي – متجر تونسي أونلاين",
-      desc: "متجر تونسي سريع وموثوق."
-    }
-  };
-
-  document.title = seo[lang].title;
-
-  let meta = document.querySelector("meta[name='description']");
-  if (!meta) {
-    meta = document.createElement("meta");
-    meta.name = "description";
-    document.head.appendChild(meta);
-  }
-  meta.content = seo[lang].desc;
-}
 
 
 
