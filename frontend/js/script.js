@@ -65,10 +65,8 @@ const translations = {
 };
 
 /* =====================
-   LANGUAGE HANDLING (🔥 FIX)
+   LANGUAGE ENFORCEMENT
 ===================== */
-
-// On HOME pages → force language selection
 (function enforceLanguage() {
   const lang = localStorage.getItem("lang");
   const isLangPage = window.location.pathname.endsWith("lang.html");
@@ -77,12 +75,6 @@ const translations = {
     window.location.replace("/lang.html");
   }
 })();
-
-// Called from lang.html buttons
-function setLanguage(lang) {
-  localStorage.setItem("lang", lang);
-  window.location.replace("/");
-}
 
 /* =====================
    HELPERS
@@ -248,6 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const codBtn = document.getElementById("codBtn");
   if (codBtn) codBtn.onclick = checkoutCOD;
 });
+
 
 
 

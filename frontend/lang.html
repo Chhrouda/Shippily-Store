@@ -58,47 +58,36 @@
 
 <body>
 
-<!-- 🔒 AUTO-REDIRECT IF LANGUAGE EXISTS -->
-<script>
-  if (localStorage.getItem("lang")) {
-    window.location.replace("/index.html");
-  }
-
-  function setLang(lang) {
-    localStorage.setItem("lang", lang);
-    window.location.replace("/index.html");
-  }
-</script>
-
 <div class="lang-box">
   <h1>Choose your language</h1>
 
-  <button onclick="setLang('tn')">
-  🇹🇳 TN تونسي
-</button>
+  <button class="lang-btn" type="button" onclick="setLang('tn')">
+    🇹🇳 TN تونسي
+  </button>
 
-<button onclick="setLang('fr')">
-  🇫🇷 FR Français
-</button>
+  <button class="lang-btn" type="button" onclick="setLang('fr')">
+    🇫🇷 FR Français
+  </button>
 
-<button onclick="setLang('en')">
-  🇬🇧 EN English
-</button>
-
+  <button class="lang-btn" type="button" onclick="setLang('en')">
+    🇬🇧 EN English
+  </button>
 </div>
 
 <script>
+  // Auto redirect if language already selected
   if (localStorage.getItem("lang")) {
-    window.location.replace("/index.html");
+    window.location.replace("/");
   }
 
+  // Language selection handler
   function setLang(lang) {
     localStorage.setItem("lang", lang);
-    window.location.replace("/index.html");
+    window.location.replace("/");
   }
 </script>
 
-
 </body>
 </html>
+
 
