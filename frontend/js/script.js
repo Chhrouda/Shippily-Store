@@ -252,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   applyTranslation();
   initContactForm();
+  applySEO();
   initLanguageSwitcher();
 
   document.querySelectorAll(".addToCart").forEach(btn => {
@@ -269,6 +270,34 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
+function applySEO() {
+  const lang = localStorage.getItem("lang") || "en";
+
+  const seo = {
+    en: {
+      title: "Shippily Store – Fast Tunisian E-commerce",
+      desc: "Fast and reliable Tunisian online store."
+    },
+    fr: {
+      title: "Shippily Store – Boutique tunisienne en ligne",
+      desc: "Boutique e-commerce tunisienne rapide et fiable."
+    },
+    tn: {
+      title: "Shيبلي – متجر تونسي أونلاين",
+      desc: "متجر تونسي سريع وموثوق."
+    }
+  };
+
+  document.title = seo[lang].title;
+
+  let meta = document.querySelector("meta[name='description']");
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "description";
+    document.head.appendChild(meta);
+  }
+  meta.content = seo[lang].desc;
+}
 
 
 
