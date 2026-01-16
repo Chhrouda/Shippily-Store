@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Select Language — Shippily</title>
 
-  <!-- Main site styles -->
   <link rel="stylesheet" href="css/style.css" />
 
   <style>
@@ -46,12 +45,6 @@
       font-weight: 600;
       background: black;
       color: white;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    .lang-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
     }
   </style>
 </head>
@@ -75,19 +68,19 @@
 </div>
 
 <script>
-  // Auto redirect if language already selected
+  // If language already chosen → go to HOME
   if (localStorage.getItem("lang")) {
-    window.location.replace("/");
+    window.location.replace("/index.html");
   }
 
-  // Language selection handler
   function setLang(lang) {
     localStorage.setItem("lang", lang);
-    window.location.replace("/");
+    window.location.replace("/index.html");
   }
 </script>
 
 </body>
 </html>
+
 
 
