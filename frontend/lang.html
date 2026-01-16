@@ -3,94 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select Language — Shippily</title>
+  <title>Select Language – Shippily</title>
 
   <link rel="stylesheet" href="css/style.css" />
-<!-- BASIC SEO -->
-<meta name="robots" content="index, follow">
-<meta name="author" content="Shippily Store">
-
-<!-- CANONICAL -->
-<link rel="canonical" href="https://shippily-store.onrender.com/">
-
-<!-- OPEN GRAPH (WhatsApp / Facebook) -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Shippily Store">
-<meta property="og:url" content="https://shippily-store.onrender.com/">
-<meta property="og:title" content="Shippily Store – Fast Tunisian E-commerce">
-<meta property="og:description" content="Fast & reliable Tunisian e-commerce store.">
-<meta property="og:image" content="https://shippily-store.onrender.com/images/og.jpg">
-
-<!-- TWITTER -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Shippily Store">
-<meta name="twitter:description" content="Fast & reliable Tunisian e-commerce store">
-<link rel="alternate" hreflang="en" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="fr" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="ar-tn" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="x-default" href="https://shippily-store.onrender.com/">
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f7f7f7;
-      font-family: inherit;
-    }
-
-    .lang-box {
-      background: white;
-      padding: 3rem 3.5rem;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.12);
-      max-width: 360px;
-      width: 100%;
-    }
-
-    .lang-box h1 {
-      margin-bottom: 2rem;
-      font-size: 1.6rem;
-      font-weight: 700;
-    }
-
-    .lang-btn {
-      width: 100%;
-      padding: 1rem;
-      margin: 0.6rem 0;
-      font-size: 1.05rem;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      background: black;
-      color: white;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    .lang-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-  </style>
 </head>
 
 <body>
 
-<div class="lang-box">
-  <h1>Choose your language</h1>
+<header>
+  <div class="nav">
+    <strong>Shippily</strong>
+  </div>
+</header>
 
-  <button class="lang-btn" data-lang="tn">🇹🇳 TN تونسي</button>
-  <button class="lang-btn" data-lang="fr">🇫🇷 FR Français</button>
-  <button class="lang-btn" data-lang="en">🇬🇧 EN English</button>
-</div>
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-box">
+    <h1>Select your language</h1>
+    <p>Please choose your preferred language</p>
 
-<script src="js/lang.js"></script>
+    <div style="display:flex; gap:15px; justify-content:center; margin-top:20px;">
+      <button class="hero-btn lang-btn" data-lang="en">English</button>
+      <button class="hero-btn lang-btn" data-lang="fr">Français</button>
+      <button class="hero-btn lang-btn" data-lang="tn">تونسي</button>
+    </div>
+  </div>
+</section>
+
+<footer>© 2025 Shippily Store</footer>
+
+<script src="js/lang.js" defer></script>
 </body>
 </html>
+
 
 
 
