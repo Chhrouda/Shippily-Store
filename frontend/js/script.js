@@ -148,7 +148,10 @@ function renderCart() {
       <button class="remove-btn">${t.remove}</button>
     `;
 
-    div.querySelector(".remove-btn").onclick = () => removeOne(item.name);
+    div.querySelector(".remove-btn").addEventListener("click", () => {
+      removeOne(item.name);
+    });
+
     container.appendChild(div);
   });
 
@@ -222,6 +225,26 @@ function applyTranslation() {
 }
 
 /* =====================
+   LANGUAGE SWITCHER
+===================== */
+function initLanguageSwitcher() {
+  const currentLang = localStorage.getItem("lang");
+
+  document.querySelectorAll(".lang-change").forEach(btn => {
+    const btnLang = btn.dataset.lang;
+
+    if (btnLang === currentLang) {
+      btn.classList.add("active");
+    }
+
+    btn.addEventListener("click", () => {
+      localStorage.setItem("lang", btnLang);
+      location.reload();
+    });
+  });
+}
+
+/* =====================
    INIT
 ===================== */
 document.addEventListener("DOMContentLoaded", () => {
@@ -229,17 +252,24 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   applyTranslation();
   initContactForm();
+  initLanguageSwitcher();
 
   document.querySelectorAll(".addToCart").forEach(btn => {
-    btn.onclick = () => {
+    btn.addEventListener("click", () => {
       const product = btn.closest(".product");
-      addToCart(product.dataset.name, Number(product.dataset.price));
-    };
+      addToCart(
+        product.dataset.name,
+        Number(product.dataset.price)
+      );
+    });
   });
 
   const codBtn = document.getElementById("codBtn");
-  if (codBtn) codBtn.onclick = checkoutCOD;
+  if (codBtn) {
+    codBtn.addEventListener("click", checkoutCOD);
+  }
 });
+
 
 
 
