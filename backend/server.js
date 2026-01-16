@@ -60,7 +60,18 @@ app.get("/api/health", (req, res) => {
 // =====================
 // FRONTEND FALLBACK (PRODUCTION SAFE)
 // =====================
+// =====================
+// FRONTEND FALLBACK (SEO + GOOGLE SAFE)
+// =====================
 app.get(/^\/(?!api).*/, (req, res) => {
+  const userAgent = req.headers["user-agent"] || "";
+
+  // Serve index.html to Googlebot (for SEO & verification)
+  if (req.path === "/" && userAgent.includes("Googlebot")) {
+    return res.sendFile(path.join(frontendPath, "index.html"));
+  }
+
+  // Serve lang.html to real users on root
   if (req.path === "/") {
     return res.sendFile(path.join(frontendPath, "lang.html"));
   }
@@ -73,9 +84,6 @@ app.get(/^\/(?!api).*/, (req, res) => {
     }
   });
 });
-
-
-
 
 // =====================
 app.listen(PORT, () => {
