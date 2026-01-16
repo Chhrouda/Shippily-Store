@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Shippily Store - Fast & Reliable Shipping" />
   <title data-i18n="home_title">Shippily Store</title>
+
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<script>
-  if (!localStorage.getItem("lang")) {
-    window.location.replace("/lang.html");
-  }
-</script>
 
 <body>
 
@@ -20,25 +17,46 @@
     <div>
       <a href="index.html" data-i18n="home">Home</a>
       <a href="products.html" data-i18n="products">Products</a>
-      <a href="cart.html">
+
+      <a href="cart.html" class="cart-link">
         <span data-i18n="cart">Cart</span> (<span id="cartCount">0</span>)
       </a>
+
       <a href="contact.html" data-i18n="contact">Contact</a>
     </div>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <h1 data-i18n="home_title"></h1>
-  <p data-i18n="home_sub"></p>
-  <a href="products.html" data-i18n="explore"></a>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-box">
+    <h1 data-i18n="home_title">
+      Best Tunisian E-commerce Store
+    </h1>
+
+    <p data-i18n="home_sub">
+      Premium products built for trust, quality, and scale.
+    </p>
+
+    <a
+      href="products.html"
+      class="hero-btn"
+      data-i18n="explore"
+    >
+      Explore Products
+    </a>
+  </div>
 </section>
 
-<footer>
+<footer data-i18n="footer">
   © 2025 Shippily Store
 </footer>
 
-<script src="js/script.js"></script>
+<!-- ✅ External JS only (CSP compliant) -->
+<script src="js/script.js" defer></script>
+
 </body>
 </html>
 
