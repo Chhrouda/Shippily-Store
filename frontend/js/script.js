@@ -26,8 +26,14 @@ const translations = {
     contact_title: "Contact Us",
     remove: "Remove",
     pay_cod: "Pay on Delivery",
-    empty_cart: "Your cart is empty"
-    
+    empty_cart: "Your cart is empty",
+    total: "Total",
+    checkout: "Checkout",
+    pay_card: "Pay with Card",
+    trust_text: "Payment on delivery · 24–72h delivery in Tunisia · WhatsApp support",
+    full_name: "Full Name",
+    email: "Email",
+    address: "Address"
   },
 
   fr: {
@@ -44,7 +50,14 @@ const translations = {
     contact_title: "Contactez-nous",
     remove: "Supprimer",
     pay_cod: "Paiement à la livraison",
-    empty_cart: "Votre panier est vide"
+    empty_cart: "Votre panier est vide",
+    total: "Total",
+    checkout: "Paiement",
+    pay_card: "Payer par carte",
+    trust_text: "Paiement à la livraison · Livraison 24–72h en Tunisie · Support WhatsApp",
+    full_name: "Nom complet",
+    email: "Email",
+    address: "Adresse"
   },
 
   tn: {
@@ -61,7 +74,14 @@ const translations = {
     contact_title: "إتصل بينا",
     remove: "نحّي",
     pay_cod: "خلاص عند التسليم",
-    empty_cart: "السلة فارغة"
+    empty_cart: "السلة فارغة",
+    total: "المجموع",
+    checkout: "الخلاص",
+    pay_card: "خلاص بالكارطة",
+    trust_text: "الخلاص عند التسليم · التوصيل 24–72 ساعة · واتساب",
+    full_name: "الإسم الكامل",
+    email: "الإيميل",
+    address: "العنوان"
   }
 };
 
