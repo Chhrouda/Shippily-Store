@@ -639,5 +639,50 @@ footer {
 .legal-page ul {
   margin-left: 1.2rem;
 }
+.invoice-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  background: #f9fafb;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  z-index: 999;
+  transition: right 0.4s ease;
+  overflow-y: auto;
+}
 
+.invoice-panel.active {
+  right: 0;
+}
+
+.invoice-box {
+  padding: 2rem;
+  background: #fff;
+  min-height: 100%;
+}
+
+.invoice-box h2 {
+  margin-bottom: 1rem;
+}
+
+.invoice-box h3 {
+  margin-top: 1.2rem;
+}
+
+.inv-total {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.invoice-box button {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
 

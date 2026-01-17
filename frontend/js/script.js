@@ -183,6 +183,18 @@ function checkoutCOD() {
     return;
   }
 
+  // 1️⃣ GET CUSTOMER DATA
+  const form = document.getElementById("checkoutForm");
+  const customer = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    address: form.address.value.trim()
+  };
+
+  // 2️⃣ GENERATE INVOICE (🔥 THIS IS THE 5TH STEP YOU ASKED ABOUT)
+  generateInvoice(customer);
+
+  // 3️⃣ BUILD WHATSAPP MESSAGE
   let message = "🛒 Nouvelle commande:%0A%0A";
   let total = 0;
 
@@ -195,16 +207,46 @@ function checkoutCOD() {
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
 
+  // 4️⃣ OPEN WHATSAPP
   window.open(`https://wa.me/21620342004?text=${message}`, "_blank");
 
-/* ✅ ORDER SUCCESS → CLEAR CART */
-clearCart();
+  // 5️⃣ CLEAR CART (AFTER invoice + WhatsApp)
+  clearCart();
 
-/* OPTIONAL: redirect user */
-setTimeout(() => {
-  window.location.href = "index.html";
-}, 300);
+  // OPTIONAL redirect
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 500);
+}
 
+function generateInvoice(customer) {
+  const orderNumber = "SH-" + Date.now();
+  const date = new Date().toLocaleDateString("fr-TN");
+
+  document.getElementById("invOrder").textContent = orderNumber;
+  document.getElementById("invDate").textContent = date;
+
+  document.getElementById("invName").textContent = customer.name;
+  document.getElementById("invEmail").textContent = customer.email;
+  document.getElementById("invAddress").textContent = customer.address;
+
+  const itemsBox = document.getElementById("invItems");
+  itemsBox.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item => {
+    const line = document.createElement("p");
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
+
+    line.textContent = `${item.name} x${item.quantity} — ${lineTotal} TND`;
+    itemsBox.appendChild(line);
+  });
+
+  document.getElementById("invTotal").textContent = total.toFixed(2);
+
+  document.getElementById("invoicePanel").classList.add("active");
 }
 
 /* =====================
