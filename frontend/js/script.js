@@ -346,6 +346,15 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
   initLanguageSwitcher();
   
+  const payBtn = document.getElementById("payBtn");
+
+if (payBtn) {
+  payBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
+  });
+}
+
 
   document.querySelectorAll(".addToCart").forEach(btn => {
     btn.addEventListener("click", () => {
