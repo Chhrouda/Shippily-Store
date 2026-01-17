@@ -188,26 +188,64 @@ function checkoutCOD() {
    INVOICE
 ===================== */
 function generateInvoice(customer) {
-  const panel = document.getElementById("invoicePanel");
-  if (!panel) return;
+  const orderNumber = "SH-" + Date.now();
+  const date = new Date().toLocaleDateString("fr-TN");
 
-  document.getElementById("invOrder").textContent = "SH-" + Date.now();
-  document.getElementById("invDate").textContent = new Date().toLocaleDateString("fr-TN");
+  document.getElementById("invOrder").textContent = orderNumber;
+  document.getElementById("invDate").textContent = date;
   document.getElementById("invName").textContent = customer.name;
   document.getElementById("invEmail").textContent = customer.email;
   document.getElementById("invAddress").textContent = customer.address;
 
-  const items = document.getElementById("invItems");
-  items.innerHTML = "";
+  const itemsBox = document.getElementById("invItems");
+  itemsBox.innerHTML = "";
 
   let total = 0;
-  cart.forEach(i => {
-    total += i.price * i.quantity;
-    items.innerHTML += `<p>${i.name} x${i.quantity}</p>`;
+
+  cart.forEach(item => {
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
+
+    itemsBox.innerHTML += `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.quantity}</td>
+        <td>${item.price.toFixed(2)} TND</td>
+        <td>${lineTotal.toFixed(2)} TND</td>
+      </tr>
+    `;
   });
 
   document.getElementById("invTotal").textContent = total.toFixed(2);
-  panel.classList.add("active");
+
+  document.getElementById("invoicePanel").classList.add("active");
+}
+
+
+/* =====================
+   LANGUAGE SWITCHER
+===================== */
+function initLanguageSwitcher() {
+  const currentLang = localStorage.getItem("lang") || "en";
+
+  document.querySelectorAll(".lang-change").forEach(btn => {
+    const btnLang = btn.dataset.lang;
+
+    // highlight active language
+    btn.classList.toggle("active", btnLang === currentLang);
+
+    btn.addEventListener("click", () => {
+      localStorage.setItem("lang", btnLang);
+
+      // instant UI update (NO reload)
+      applyTranslation();
+
+      // update active styles
+      document.querySelectorAll(".lang-change").forEach(b =>
+        b.classList.toggle("active", b.dataset.lang === btnLang)
+      );
+    });
+  });
 }
 
 /* =====================
@@ -217,40 +255,20 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
   applyTranslation();
-  
+  initLanguageSwitcher();
 });
+
+/* =====================
+   SYNC LANGUAGE ACROSS TABS (OPTIONAL BUT RECOMMENDED)
+===================== */
 window.addEventListener("storage", e => {
   if (e.key === "lang") {
     applyTranslation();
-
-    document.querySelectorAll(".lang-change").forEach(btn =>
-      btn.classList.toggle("active", btn.dataset.lang === e.newValue)
-    );
+    initLanguageSwitcher();
   }
 });
 
-function initLanguageSwitcher() {
-  const currentLang = localStorage.getItem("lang") || "en";
 
-  document.querySelectorAll(".lang-change").forEach(btn => {
-    const btnLang = btn.dataset.lang;
-
-    // highlight active
-    btn.classList.toggle("active", btnLang === currentLang);
-
-    btn.onclick = () => {
-      localStorage.setItem("lang", btnLang);
-
-      // instant UI update
-      applyTranslation();
-
-      // update active styles
-      document.querySelectorAll(".lang-change").forEach(b =>
-        b.classList.toggle("active", b.dataset.lang === btnLang)
-      );
-    };
-  });
-}
 
 
 

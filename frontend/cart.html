@@ -114,6 +114,59 @@
     </p>
   </div>
 </footer>
+<!-- INVOICE PANEL -->
+<!-- INVOICE / DELIVERY NOTE -->
+<div id="invoicePanel" class="invoice-panel">
+  <div class="invoice-sheet">
+
+    <div class="invoice-header">
+      <div>
+        <h1>Shippily</h1>
+        <p>Bon de livraison / Facture</p>
+      </div>
+      <div class="invoice-meta">
+        <p><strong>N°</strong> <span id="invOrder"></span></p>
+        <p><strong>Date</strong> <span id="invDate"></span></p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="invoice-section">
+      <h3>Facturé à</h3>
+      <p id="invName"></p>
+      <p id="invEmail"></p>
+      <p id="invAddress"></p>
+    </div>
+
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Qté</th>
+          <th>Prix</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="invItems"></tbody>
+    </table>
+
+    <div class="invoice-total">
+      <p><strong>Total :</strong> <span id="invTotal"></span> TND</p>
+      <p class="payment">Paiement à la livraison</p>
+    </div>
+
+    <hr>
+
+    <div class="invoice-footer">
+      <p><strong>Vendeur :</strong> Shippily (Personne physique)</p>
+      <p>📞 +216 20 342 004</p>
+      <button onclick="window.print()">🖨️ Imprimer</button>
+    </div>
+
+  </div>
+</div>
+
 
 </body>
 </html>
