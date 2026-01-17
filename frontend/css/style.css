@@ -114,6 +114,13 @@ header {
   background: #000;
   color: #fff;
 }
+/* =====================
+   HERO OFFSET FIX (CRITICAL)
+===================== */
+.hero {
+  padding-top: var(--nav-height);
+}
+
 
 /* =====================
    PRODUCTS
@@ -261,71 +268,66 @@ footer {
 }
 
 /* =====================
-   MOBILE
-===================== */
-/* =====================
-   MOBILE NAVBAR FIX
+   FINAL MOBILE NAVBAR (CENTERED)
 ===================== */
 @media (max-width: 768px) {
 
+  /* NAV WRAPPER */
   .nav {
     display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "brand brand"
-      "links lang";
-    row-gap: 0.8rem;
-    align-items: center;
+    grid-template-rows: auto auto;
+    gap: 0.8rem;
     padding: 1rem;
   }
 
-  /* Brand centered */
+  /* BRAND ROW */
   .nav h1,
   .nav .logo {
-    grid-area: brand;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
   }
 
-  /* Navigation links */
+  /* NAV LINKS — CENTERED */
   .nav-links {
-    grid-area: links;
     display: flex;
-    gap: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    gap: 1.4rem;
     flex-wrap: wrap;
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .nav-links a {
     margin: 0;
+    white-space: nowrap;
   }
 
-  /* Language switcher */
+  /* LANGUAGE SWITCHER — TOP RIGHT */
   .lang-switcher {
-    grid-area: lang;
-    justify-content: flex-end;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 6px;
   }
 
   .lang-switcher button {
     padding: 4px 6px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    border-radius: 6px;
   }
-}
 
-@media (max-width: 768px) {
-  .lang-switcher {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-}
-@media (max-width: 768px) {
+  /* FLOATING CART FIX */
   .floating-cart {
-    bottom: 12px;
-    right: 12px;
+    bottom: 14px;
+    right: 14px;
     padding: 10px 14px;
     font-size: 14px;
   }
 }
+
 
 /* ===== HERO SECTION (FORCED BACKGROUND FIX) ===== */
 
