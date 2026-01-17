@@ -427,6 +427,78 @@ footer {
     --nav-height: 160px; /* mobile header height */
   }
 }
+/* =====================
+   PERFECTED HOME HERO
+===================== */
+
+/* HERO WRAPPER */
+.hero {
+  position: relative;
+  padding-top: var(--nav-height);
+  min-height: calc(100svh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* DARK OVERLAY (cleaner contrast) */
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* HERO CONTENT BOX */
+.hero-box {
+  max-width: 720px;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+}
+
+/* HERO TITLE */
+.hero h1 {
+  font-size: 2.6rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 1rem;
+}
+
+/* HERO SUBTEXT */
+.hero p {
+  font-size: 1.05rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+/* HERO BUTTON */
+.hero-btn {
+  padding: 0.9rem 2.2rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  border: none;
+}
+
+/* =====================
+   MOBILE REFINEMENTS
+===================== */
+@media (max-width: 768px) {
+
+  .hero-box {
+    padding: 2.4rem 1.6rem;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+}
 
 
 
