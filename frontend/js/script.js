@@ -216,14 +216,41 @@ function generateInvoice(customer) {
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
-
-  const form = document.getElementById("checkoutForm");
-  if (form) {
-    form.addEventListener("submit", e => e.preventDefault());
-  }
-
-  document.getElementById("codBtn")?.addEventListener("click", checkoutCOD);
+  applyTranslation();
+  
 });
+window.addEventListener("storage", e => {
+  if (e.key === "lang") {
+    applyTranslation();
+
+    document.querySelectorAll(".lang-change").forEach(btn =>
+      btn.classList.toggle("active", btn.dataset.lang === e.newValue)
+    );
+  }
+});
+
+function initLanguageSwitcher() {
+  const currentLang = localStorage.getItem("lang") || "en";
+
+  document.querySelectorAll(".lang-change").forEach(btn => {
+    const btnLang = btn.dataset.lang;
+
+    // highlight active
+    btn.classList.toggle("active", btnLang === currentLang);
+
+    btn.onclick = () => {
+      localStorage.setItem("lang", btnLang);
+
+      // instant UI update
+      applyTranslation();
+
+      // update active styles
+      document.querySelectorAll(".lang-change").forEach(b =>
+        b.classList.toggle("active", b.dataset.lang === btnLang)
+      );
+    };
+  });
+}
 
 
 
