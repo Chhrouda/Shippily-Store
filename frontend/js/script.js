@@ -95,6 +95,13 @@ function updateCartCount() {
     if (el) el.textContent = count;
   });
 }
+function clearCart() {
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartCount();
+  renderCart();
+}
+
 
 /* =====================
    CART ACTIONS
@@ -189,6 +196,15 @@ function checkoutCOD() {
   message += `%0A📍 Paiement à la livraison`;
 
   window.open(`https://wa.me/21620342004?text=${message}`, "_blank");
+
+/* ✅ ORDER SUCCESS → CLEAR CART */
+clearCart();
+
+/* OPTIONAL: redirect user */
+setTimeout(() => {
+  window.location.href = "index.html";
+}, 300);
+
 }
 
 /* =====================
