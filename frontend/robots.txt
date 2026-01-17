@@ -1,8 +1,4 @@
 User-agent: *
-Allow: /
-
-# Explicitly allow Google
-User-agent: Googlebot
-Allow: /
+Disallow:
 
 Sitemap: https://shippily-store.onrender.com/sitemap.xml

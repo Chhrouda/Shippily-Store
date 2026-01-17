@@ -27,6 +27,7 @@ const translations = {
     remove: "Remove",
     pay_cod: "Pay on Delivery",
     empty_cart: "Your cart is empty"
+    
   },
 
   fr: {
@@ -222,6 +223,10 @@ function initContactForm() {
 function applyTranslation() {
   const lang = localStorage.getItem("lang") || "en";
   const t = translations[lang] || translations.en;
+  const titleEl = document.querySelector("title[data-i18n]");
+  if (titleEl && t[titleEl.dataset.i18n]) {
+  titleEl.textContent = t[titleEl.dataset.i18n];
+}
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
@@ -276,6 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
+
 
 
 

@@ -25,7 +25,6 @@ const __dirname = path.dirname(__filename);
 // =====================
 app.use(cors());
 
-// IMPORTANT: allow indexing (Helmet safe config)
 app.use(
   helmet({
     contentSecurityPolicy: false,
@@ -43,15 +42,30 @@ const frontendPath = path.join(__dirname, "..", "frontend");
 app.use(express.static(frontendPath));
 
 // =====================
+// SEO FILES (CRITICAL — SINGLE SOURCE OF TRUTH)
+// =====================
+// =====================
 // SEO FILES (CRITICAL)
 // =====================
+// =====================
+// SEO FILES (CRITICAL — GOOGLE SAFE)
+// =====================
 app.get("/robots.txt", (req, res) => {
-  res.sendFile(path.join(frontendPath, "robots.txt"));
+  res.type("text/plain");
+  res.send(
+`User-agent: *
+Disallow:
+
+Sitemap: https://shippily-store.onrender.com/sitemap.xml`
+  );
 });
 
 app.get("/sitemap.xml", (req, res) => {
+  res.type("application/xml");
   res.sendFile(path.join(frontendPath, "sitemap.xml"));
 });
+
+
 
 // =====================
 // DATABASE
@@ -96,6 +110,7 @@ app.get(/^\/(?!api).*/, (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
