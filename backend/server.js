@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Needed for __dirname
+// __dirname support
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -36,23 +36,16 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 // =====================
-// FRONTEND (STATIC FILES)
+// FRONTEND (STATIC)
 // =====================
 const frontendPath = path.join(__dirname, "..", "frontend");
 app.use(express.static(frontendPath));
 
 // =====================
-// SEO FILES (CRITICAL — SINGLE SOURCE OF TRUTH)
-// =====================
-// =====================
-// SEO FILES (CRITICAL)
-// =====================
-// =====================
-// SEO FILES (CRITICAL — GOOGLE SAFE)
+// SEO FILES (HIGHEST PRIORITY)
 // =====================
 app.get("/robots.txt", (req, res) => {
-  res.type("text/plain");
-  res.send(
+  res.type("text/plain").send(
 `User-agent: *
 Disallow:
 
@@ -65,7 +58,10 @@ app.get("/sitemap.xml", (req, res) => {
   res.sendFile(path.join(frontendPath, "sitemap.xml"));
 });
 
-
+// Favicon fix (stops 404 noise)
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(frontendPath, "favicon.ico"));
+});
 
 // =====================
 // DATABASE
@@ -84,21 +80,33 @@ mongoose
 app.use("/api/payments", paymentRoutes);
 app.use("/api/admin", adminRoutes);
 
-// Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK" });
 });
 
 // =====================
-// FRONTEND FALLBACK (PRODUCTION SAFE)
+// FRONTEND ROUTING (BOT SAFE)
 // =====================
 app.get(/^\/(?!api).*/, (req, res) => {
+  const ua = req.headers["user-agent"] || "";
+
+  const isBot =
+    ua.includes("Googlebot") ||
+    ua.includes("bingbot") ||
+    ua.includes("Slurp") ||
+    ua.includes("DuckDuckBot");
+
+  // Bots see real homepage
+  if (req.path === "/" && isBot) {
+    return res.sendFile(path.join(frontendPath, "index.html"));
+  }
+
+  // Humans see language selector
   if (req.path === "/") {
     return res.sendFile(path.join(frontendPath, "lang.html"));
   }
 
   const filePath = path.join(frontendPath, req.path);
-
   res.sendFile(filePath, err => {
     if (err) {
       res.sendFile(path.join(frontendPath, "index.html"));
@@ -110,6 +118,7 @@ app.get(/^\/(?!api).*/, (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
