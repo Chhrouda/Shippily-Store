@@ -33,7 +33,23 @@ const translations = {
     trust_text: "Payment on delivery · 24–72h delivery in Tunisia · WhatsApp support",
     full_name: "Full Name",
     email: "Email",
-    address: "Address"
+    address: "Address",
+    delivery: "Fast Delivery",
+    secure_payments: "Secure Payments",
+    tunisian_store: "Tunisian Store",
+    verified_products: "Verified Products",
+    why_shippily: "Why Shippily?",
+    curated_products: "Curated Products",
+    curated_desc: "Only high-quality products selected for performance and durability.",
+    local_reliable: "Local & Reliable",
+    local_desc: "Built for Tunisia with fast shipping and local support.",
+    secure_checkout: "Secure Checkout",
+    secure_desc: "Your data and payments are protected at every step.",
+    contact_us: "Contact Us",
+    feedback_text: "Have feedback or questions? We’d love to hear from you.",
+    feedback: "Feedback",
+    send_feedback: "Send Feedback",
+    whatsapp_contact: "Or contact us directly on WhatsApp",
   },
 
   fr: {
@@ -57,7 +73,23 @@ const translations = {
     trust_text: "Paiement à la livraison · Livraison 24–72h en Tunisie · Support WhatsApp",
     full_name: "Nom complet",
     email: "Email",
-    address: "Adresse"
+    address: "Adresse",
+    delivery: "Livraison rapide",
+  secure_payments: "Paiements sécurisés",
+  tunisian_store: "Boutique tunisienne",
+  verified_products: "Produits vérifiés",
+  why_shippily: "Pourquoi Shippily ?",
+  curated_products: "Produits sélectionnés",
+  curated_desc: "Uniquement des produits de haute qualité choisis pour leur performance et durabilité.",
+  local_reliable: "Local & fiable",
+  local_desc: "Conçu pour la Tunisie avec livraison rapide et support local.",
+  secure_checkout: "Paiement sécurisé",
+  secure_desc: "Vos données et paiements sont protégés à chaque étape.",
+  contact_us: "Contactez-nous",
+  feedback_text: "Une question ou un avis ? Nous serions ravis de vous répondre.",
+  feedback: "Avis",
+  send_feedback: "Envoyer",
+  whatsapp_contact: "Ou contactez-nous directement sur WhatsApp",
   },
 
   tn: {
@@ -81,7 +113,26 @@ const translations = {
     trust_text: "الخلاص عند التسليم · التوصيل 24–72 ساعة · واتساب",
     full_name: "الإسم الكامل",
     email: "الإيميل",
-    address: "العنوان"
+    address: "العنوان",
+    tn: {
+  delivery: "توصيل سريع",
+  secure_payments: "خلاص آمن",
+  tunisian_store: "متجر تونسي",
+  verified_products: "منتوجات مضمونة",
+  why_shippily: "علاش Shippily؟",
+  curated_products: "منتوجات مختارة",
+  curated_desc: "كان منتوجات ذات جودة عالية مختارة للأداء والمتانة.",
+  local_reliable: "محلي وموثوق",
+  local_desc: "مبني لتونس مع توصيل سريع ودعم محلي.",
+  secure_checkout: "خلاص آمن",
+  secure_desc: "معطياتك وخلاصك محميين في كل مرحلة.",
+  contact_us: "إتصل بينا",
+  feedback_text: "عندك ملاحظة ولا سؤال؟ يهمنا نسمعوك.",
+  feedback: "ملاحظة",
+  send_feedback: "إبعث",
+  whatsapp_contact: "ولا كلمنا مباشرة على واتساب",
+}
+
   }
 };
 
