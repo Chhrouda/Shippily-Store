@@ -499,6 +499,91 @@ footer {
     font-size: 0.95rem;
   }
 }
+/* =====================
+   HERO ANIMATION
+===================== */
+.hero-box {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeUp 0.8s ease forwards;
+}
 
+@keyframes heroFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================
+   TRUST BADGES
+===================== */
+.trust {
+  padding: 2rem 1rem;
+  background: #fff;
+}
+
+.trust-container {
+  max-width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.trust-item {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-weight: 500;
+  background: #fafafa;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .trust-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* =====================
+   WHY SHIPPILY
+===================== */
+.why {
+  padding: 4rem 1.5rem;
+  background: var(--bg);
+  text-align: center;
+}
+
+.why h2 {
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.why-grid {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.why-card {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+.why-card h3 {
+  margin-bottom: 0.6rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
 
