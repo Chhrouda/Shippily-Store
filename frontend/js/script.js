@@ -203,18 +203,20 @@ function checkoutCOD() {
     return;
   }
 
-  // 1️⃣ GET CUSTOMER DATA
   const form = document.getElementById("checkoutForm");
-  const customer = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    address: form.address.value.trim()
-  };
+  if (!form) return;
 
-  // 2️⃣ GENERATE INVOICE (🔥 THIS IS THE 5TH STEP YOU ASKED ABOUT)
-  generateInvoice(customer);
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const address = form.address.value.trim();
 
-  // 3️⃣ BUILD WHATSAPP MESSAGE
+  // ✅ REQUIRED FIELDS CHECK
+  if (!name || !email || !address) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  // ✅ BUILD WHATSAPP MESSAGE
   let message = "🛒 Nouvelle commande:%0A%0A";
   let total = 0;
 
@@ -226,18 +228,20 @@ function checkoutCOD() {
 
   message += `%0A💰 Total: ${total} TND`;
   message += `%0A📍 Paiement à la livraison`;
+  message += `%0A👤 ${name}`;
+  message += `%0A📧 ${email}`;
+  message += `%0A🏠 ${address}`;
 
-  // 4️⃣ OPEN WHATSAPP
-  window.open(`https://wa.me/21620342004?text=${message}`, "_blank");
+  // ✅ OPEN WHATSAPP
+  window.open(
+    `https://wa.me/21620342004?text=${message}`,
+    "_blank"
+  );
 
-  // 5️⃣ CLEAR CART (AFTER invoice + WhatsApp)
+  // ✅ CLEAR CART AFTER SUCCESS
   clearCart();
-
-  // OPTIONAL redirect
-  setTimeout(() => {
-    window.location.href = "index.html";
-  }, 500);
 }
+
 
 function generateInvoice(customer) {
   const orderNumber = "SH-" + Date.now();
