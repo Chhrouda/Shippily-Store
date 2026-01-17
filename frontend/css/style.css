@@ -1,5 +1,5 @@
 
-/* =====================
+//* =====================
    RESET & BASE
 ===================== */
 :root {
@@ -39,12 +39,20 @@ button {
 }
 
 /* =====================
+   FIX: HEADERS HIDDEN UNDER FIXED NAV (MOBILE SAFE)
+===================== */
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 120px;
+}
+
+/* =====================
    NAVBAR (FIXED & MOBILE SAFE)
 ===================== */
 header {
   position: fixed;
   top: 0;
   width: 100%;
+  height: 120px; /* explicit height = mobile fix */
   background: var(--white);
   border-bottom: 1px solid var(--border);
   z-index: 100;
@@ -322,6 +330,10 @@ footer {
     gap: 1rem;
   }
 
+  .hero {
+    min-height: calc(100vh - 120px); /* mobile vh bug fix */
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
@@ -331,6 +343,7 @@ footer {
     max-width: 90%;
   }
 }
+
 
 
 
