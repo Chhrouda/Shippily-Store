@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Fast & reliable Tunisian e-commerce store" />
 
-  <!-- GOOGLE VERIFICATION -->
+  <!-- SEO -->
+  <meta name="description" content="Fast & reliable Tunisian e-commerce store" />
   <meta name="google-site-verification" content="m2vbm4JMa_CJe5EbTtt89N1EHpTn4tFlRr8oGDyi8QY" />
 
   <title>Shippily Store</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
+  <!-- Styles -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -20,30 +21,49 @@
   <div class="nav">
     <strong>Shippily</strong>
     <div>
-      <a href="/" data-i18n="home"></a>
-      <a href="products.html" data-i18n="products"></a>
+      <a href="/" data-i18n="home">Home</a>
+      <a href="products.html" data-i18n="products">Products</a>
+
       <a href="cart.html" class="cart-link">
-        <span data-i18n="cart"></span> (<span id="cartCount">0</span>)
+        <span data-i18n="cart">Cart</span>
+        (<span id="cartCount">0</span>)
       </a>
-      <a href="contact.html" data-i18n="contact"></a>
+
+      <a href="contact.html" data-i18n="contact">Contact</a>
     </div>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-overlay"></div>
+
   <div class="hero-box">
-    <h1 data-i18n="home_title"></h1>
-    <p data-i18n="home_sub"></p>
-    <a href="products.html" class="hero-btn" data-i18n="explore"></a>
+    <!-- ✅ fallback text REQUIRED -->
+    <h1 data-i18n="home_title">
+      Best Tunisian E-commerce Store
+    </h1>
+
+    <p data-i18n="home_sub">
+      Premium products built for trust, quality, and scale.
+    </p>
+
+    <a href="products.html" class="hero-btn" data-i18n="explore">
+      Explore Products
+    </a>
   </div>
 </section>
 
-<footer data-i18n="footer"></footer>
+<footer data-i18n="footer">
+  © 2025 Shippily Store
+</footer>
 
+<!-- JS (must be last) -->
 <script src="js/script.js" defer></script>
+
 </body>
 </html>
+
 
 
 

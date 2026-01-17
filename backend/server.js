@@ -12,72 +12,70 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// =====================
-// PATH FIX (__dirname)
-// =====================
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendPath = path.join(__dirname, "..", "frontend");
 
-// =====================
-// MIDDLEWARE
-// =====================
+/* ======================
+   MIDDLEWARE
+====================== */
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// =====================
-// DATABASE
-// =====================
-mongoose
-  .connect(process.env.MONGO_URI)
+/* ======================
+   FRONTEND
+====================== */
+const frontendPath = path.join(__dirname, "..", "frontend");
+app.use(express.static(frontendPath));
+
+/* ======================
+   DATABASE
+====================== */
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch(err => {
-    console.error("❌ MongoDB error:", err);
+    console.error(err);
     process.exit(1);
   });
 
-// =====================
-// API ROUTES
-// =====================
-app.get("/api/health", (req, res) => {
-  res.json({ status: "OK" });
+/* ======================
+   API
+====================== */
+app.get("/api/health", (_, res) => {
+  res.status(200).json({ status: "OK" });
 });
 
-// =====================
-// STATIC FRONTEND (FIRST)
-// =====================
-app.use(express.static(frontendPath, {
-  extensions: ["html"]
-}));
+/* ======================
+   SEO – CRITICAL FIX
+====================== */
 
-// =====================
-// SEO FILES (CRITICAL)
-// =====================
-app.get("/robots.txt", (req, res) => {
-  res.type("text/plain");
-  res.sendFile(path.join(frontendPath, "robots.txt"));
-});
-
+// ✅ Serve sitemap with correct headers
 app.get("/sitemap.xml", (req, res) => {
-  res.type("application/xml");
+  res.setHeader("Content-Type", "application/xml");
   res.sendFile(path.join(frontendPath, "sitemap.xml"));
 });
 
-// =====================
-// FRONTEND FALLBACK (HTML ONLY)
-// =====================
+// ✅ Serve robots.txt explicitly
+app.get("/robots.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  res.sendFile(path.join(frontendPath, "robots.txt"));
+});
+
+/* ======================
+   FRONTEND ROUTING (ONLY ONCE)
+====================== */
 app.get("*", (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-// =====================
-// START SERVER
-// =====================
+/* ======================
+   START SERVER
+====================== */
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
