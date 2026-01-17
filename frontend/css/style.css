@@ -72,9 +72,11 @@ header {
 ===================== */
 .container {
   max-width: 1200px;
-  margin: 120px auto 2rem auto; /* pushes content below navbar */
+  margin: 0 auto 2rem auto;
   padding: 2rem;
+  padding-top: var(--nav-height);
 }
+
 
 /* =====================
    HERO
@@ -262,15 +264,34 @@ footer {
    MOBILE
 ===================== */
 @media (max-width: 768px) {
-  .nav {
-    flex-direction: column;
-    gap: 1rem;
+  header {
+    position: fixed;
   }
 
-  .hero h1 {
-    font-size: 2rem;
+  .nav {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .nav a {
+    margin: 0.3rem 0;
   }
 }
+@media (max-width: 768px) {
+  .lang-switcher {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 768px) {
+  .floating-cart {
+    bottom: 12px;
+    right: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
 /* ===== HERO SECTION (FORCED BACKGROUND FIX) ===== */
 
 .hero {
@@ -359,6 +380,15 @@ footer {
 .lang-switcher button.active {
   background: #000;
   color: #fff;
+}
+:root {
+  --nav-height: 96px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 160px; /* mobile header height */
+  }
 }
 
 
