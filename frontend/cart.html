@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- PRIMARY SEO -->
   <title data-i18n="cart_title">Your Cart</title>
-  <meta name="description" content="Checkout your cart on Shippily Store">
-  <link rel="stylesheet" href="css/style.css">
-  <!-- BASIC SEO -->
-<meta name="robots" content="index, follow">
-<meta name="author" content="Shippily Store">
+  <meta name="description" content="Review your cart and checkout securely on Shippily Store with fast delivery in Tunisia." />
+  <link rel="canonical" href="https://shippily-store.onrender.com/cart.html" />
 
-<!-- CANONICAL -->
-<link rel="canonical" href="https://shippily-store.onrender.com/">
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Your Cart — Shippily Store" />
+  <meta property="og:description" content="Checkout your products with fast delivery and WhatsApp support." />
+  <meta property="og:url" content="https://shippily-store.onrender.com/cart.html" />
 
-<!-- OPEN GRAPH (WhatsApp / Facebook) -->
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Shippily Store">
-<meta property="og:url" content="https://shippily-store.onrender.com/">
-<meta property="og:title" content="Shippily Store – Fast Tunisian E-commerce">
-<meta property="og:description" content="Fast & reliable Tunisian e-commerce store.">
-<meta property="og:image" content="https://shippily-store.onrender.com/images/og.jpg">
-
-<!-- TWITTER -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Shippily Store">
-<meta name="twitter:description" content="Fast & reliable Tunisian e-commerce store">
-<link rel="alternate" hreflang="en" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="fr" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="ar-tn" href="https://shippily-store.onrender.com/">
-<link rel="alternate" hreflang="x-default" href="https://shippily-store.onrender.com/">
-
+  <!-- STYLES -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
 
 <header>
@@ -47,11 +35,10 @@
       <a href="contact.html" data-i18n="contact">Contact</a>
     </div>
     <div class="lang-switcher">
-  <button class="lang-change" data-lang="tn">TN</button>
-  <button class="lang-change" data-lang="fr">FR</button>
-  <button class="lang-change" data-lang="en">EN</button>
-</div>
-
+      <button class="lang-change" data-lang="tn">TN</button>
+      <button class="lang-change" data-lang="fr">FR</button>
+      <button class="lang-change" data-lang="en">EN</button>
+    </div>
   </div>
 </header>
 
@@ -71,12 +58,12 @@
   <form id="checkoutForm" class="checkout-form">
     <label>
       <span data-i18n="full_name">Full Name</span>
-      <input type="text" name="name" required>
+      <input type="text" name="name" required />
     </label>
 
     <label>
       <span data-i18n="email">Email</span>
-      <input type="email" name="email" required>
+      <input type="email" name="email" required />
     </label>
 
     <label>
@@ -102,7 +89,7 @@
   <span data-i18n="cart">Cart</span> (<span id="floatingCount">0</span>)
 </a>
 
-<script src="js/script.js"></script>
+<script src="js/script.js" defer></script>
 
 </body>
 </html>

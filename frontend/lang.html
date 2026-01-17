@@ -3,39 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Select Language – Shippily</title>
+
+  <title>Select Language — Shippily</title>
+
+  <!-- 🚫 DO NOT INDEX (LANG GATE PAGE) -->
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://shippily-store.onrender.com/" />
 
   <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+      font-family: inherit;
+    }
+
+    .lang-box {
+      background: white;
+      padding: 3rem 3.5rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .lang-box h1 {
+      margin-bottom: 2rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .lang-btn {
+      width: 100%;
+      padding: 1rem;
+      margin: 0.6rem 0;
+      font-size: 1.05rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: black;
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <div class="nav">
-    <strong>Shippily</strong>
-  </div>
-</header>
+<div class="lang-box">
+  <h1>Choose your language</h1>
 
-<section class="hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-box">
-    <h1>Select your language</h1>
-    <p>Please choose your preferred language</p>
+  <button class="lang-btn" type="button" data-lang="tn">
+    🇹🇳 TN تونسي
+  </button>
 
-    <div style="display:flex; gap:15px; justify-content:center; margin-top:20px;">
-      <button class="hero-btn lang-btn" data-lang="en">English</button>
-      <button class="hero-btn lang-btn" data-lang="fr">Français</button>
-      <button class="hero-btn lang-btn" data-lang="tn">تونسي</button>
-    </div>
-  </div>
-</section>
+  <button class="lang-btn" type="button" data-lang="fr">
+    🇫🇷 FR Français
+  </button>
 
-<footer>© 2025 Shippily Store</footer>
+  <button class="lang-btn" type="button" data-lang="en">
+    🇬🇧 EN English
+  </button>
+</div>
 
+<!-- JS -->
 <script src="js/lang.js" defer></script>
+
 </body>
 </html>
-
 
 
 
