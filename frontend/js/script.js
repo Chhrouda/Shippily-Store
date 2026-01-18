@@ -293,7 +293,7 @@ function checkoutCOD() {
   }
 
   // ✅ BUILD WHATSAPP MESSAGE
-  let message = "🛒 Nouvelle commande:%0A%0A";
+  let message = "Nouvelle commande:%0A%0A";
   let total = 0;
 
   cart.forEach(item => {
