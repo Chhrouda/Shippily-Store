@@ -17,39 +17,48 @@ const translations = {
     products: "Products",
     cart: "Cart",
     contact: "Contact",
+
     home_title: "Best Tunisian E-commerce Store",
     home_sub: "Premium products built for trust, quality, and scale.",
     explore: "Explore Products",
+
     products_title: "Products",
     cart_title: "Your Cart",
     checkout_title: "Checkout",
+
     contact_title: "Contact Us",
+    contact_sub: "Have feedback or questions? We’d love to hear from you.",
+
     remove: "Remove",
-    pay_cod: "Pay on Delivery",
     empty_cart: "Your cart is empty",
     total: "Total",
     checkout: "Checkout",
+
+    pay_cod: "Pay on Delivery",
     pay_card: "Pay with Card",
+
     trust_text: "Payment on delivery · 24–72h delivery in Tunisia · WhatsApp support",
+
     full_name: "Full Name",
     email: "Email",
     address: "Address",
-    delivery: "Fast Delivery",
+
+    fast_delivery: "Fast Delivery",
     secure_payments: "Secure Payments",
     tunisian_store: "Tunisian Store",
     verified_products: "Verified Products",
-    why_shippily: "Why Shippily?",
-    curated_products: "Curated Products",
-    curated_desc: "Only high-quality products selected for performance and durability.",
-    local_reliable: "Local & Reliable",
-    local_desc: "Built for Tunisia with fast shipping and local support.",
-    secure_checkout: "Secure Checkout",
-    secure_desc: "Your data and payments are protected at every step.",
-    contact_us: "Contact Us",
-    feedback_text: "Have feedback or questions? We’d love to hear from you.",
+
+    why_title: "Why Shippily?",
+    why_curated_title: "Curated Products",
+    why_curated_text: "Only high-quality products selected for performance and durability.",
+    why_local_title: "Local & Reliable",
+    why_local_text: "Built for Tunisia with fast shipping and local support.",
+    why_secure_title: "Secure Checkout",
+    why_secure_text: "Your data and payments are protected at every step.",
+
     feedback: "Feedback",
     send_feedback: "Send Feedback",
-    whatsapp_contact: "Or contact us directly on WhatsApp",
+    whatsapp_hint: "Or contact us directly on WhatsApp"
   },
 
   fr: {
@@ -57,39 +66,48 @@ const translations = {
     products: "Produits",
     cart: "Panier",
     contact: "Contact",
+
     home_title: "La meilleure boutique e-commerce tunisienne",
     home_sub: "Produits premium basés sur la confiance et la qualité.",
     explore: "Voir les produits",
+
     products_title: "Produits",
     cart_title: "Votre panier",
     checkout_title: "Paiement",
+
     contact_title: "Contactez-nous",
+    contact_sub: "Vous avez des questions ou des remarques ? Nous serions ravis de vous répondre.",
+
     remove: "Supprimer",
-    pay_cod: "Paiement à la livraison",
     empty_cart: "Votre panier est vide",
     total: "Total",
     checkout: "Paiement",
+
+    pay_cod: "Paiement à la livraison",
     pay_card: "Payer par carte",
+
     trust_text: "Paiement à la livraison · Livraison 24–72h en Tunisie · Support WhatsApp",
+
     full_name: "Nom complet",
     email: "Email",
     address: "Adresse",
-    delivery: "Livraison rapide",
-  secure_payments: "Paiements sécurisés",
-  tunisian_store: "Boutique tunisienne",
-  verified_products: "Produits vérifiés",
-  why_shippily: "Pourquoi Shippily ?",
-  curated_products: "Produits sélectionnés",
-  curated_desc: "Uniquement des produits de haute qualité choisis pour leur performance et durabilité.",
-  local_reliable: "Local & fiable",
-  local_desc: "Conçu pour la Tunisie avec livraison rapide et support local.",
-  secure_checkout: "Paiement sécurisé",
-  secure_desc: "Vos données et paiements sont protégés à chaque étape.",
-  contact_us: "Contactez-nous",
-  feedback_text: "Une question ou un avis ? Nous serions ravis de vous répondre.",
-  feedback: "Avis",
-  send_feedback: "Envoyer",
-  whatsapp_contact: "Ou contactez-nous directement sur WhatsApp",
+
+    fast_delivery: "Livraison rapide",
+    secure_payments: "Paiements sécurisés",
+    tunisian_store: "Boutique tunisienne",
+    verified_products: "Produits vérifiés",
+
+    why_title: "Pourquoi Shippily ?",
+    why_curated_title: "Produits sélectionnés",
+    why_curated_text: "Des produits de haute qualité sélectionnés pour leur performance et durabilité.",
+    why_local_title: "Local & Fiable",
+    why_local_text: "Conçu pour la Tunisie avec livraison rapide et support local.",
+    why_secure_title: "Paiement sécurisé",
+    why_secure_text: "Vos données et paiements sont protégés à chaque étape.",
+
+    feedback: "Avis",
+    send_feedback: "Envoyer",
+    whatsapp_hint: "Ou contactez-nous directement sur WhatsApp"
   },
 
   tn: {
@@ -97,44 +115,51 @@ const translations = {
     products: "البرودوي",
     cart: "السلة",
     contact: "إتصل بينا",
+
     home_title: "أحسن متجر تونسي أونلاين",
     home_sub: "منتوجات مضمونة، جودة وثقة.",
     explore: "شوف البرودوي",
+
     products_title: "البرودوي",
     cart_title: "السلة متاعك",
     checkout_title: "الخلاص",
+
     contact_title: "إتصل بينا",
+    contact_sub: "عندك سؤال ولا ملاحظة؟ يسعدنا نجاوبوك.",
+
     remove: "نحّي",
-    pay_cod: "خلاص عند التسليم",
     empty_cart: "السلة فارغة",
     total: "المجموع",
     checkout: "الخلاص",
+
+    pay_cod: "خلاص عند التسليم",
     pay_card: "خلاص بالكارطة",
+
     trust_text: "الخلاص عند التسليم · التوصيل 24–72 ساعة · واتساب",
+
     full_name: "الإسم الكامل",
     email: "الإيميل",
     address: "العنوان",
-    tn: {
-  delivery: "توصيل سريع",
-  secure_payments: "خلاص آمن",
-  tunisian_store: "متجر تونسي",
-  verified_products: "منتوجات مضمونة",
-  why_shippily: "علاش Shippily؟",
-  curated_products: "منتوجات مختارة",
-  curated_desc: "كان منتوجات ذات جودة عالية مختارة للأداء والمتانة.",
-  local_reliable: "محلي وموثوق",
-  local_desc: "مبني لتونس مع توصيل سريع ودعم محلي.",
-  secure_checkout: "خلاص آمن",
-  secure_desc: "معطياتك وخلاصك محميين في كل مرحلة.",
-  contact_us: "إتصل بينا",
-  feedback_text: "عندك ملاحظة ولا سؤال؟ يهمنا نسمعوك.",
-  feedback: "ملاحظة",
-  send_feedback: "إبعث",
-  whatsapp_contact: "ولا كلمنا مباشرة على واتساب",
-}
 
+    fast_delivery: "توصيل سريع",
+    secure_payments: "خلاص آمن",
+    tunisian_store: "ستور تونسي",
+    verified_products: "منتجات مضمونة",
+
+    why_title: "علاش Shippily؟",
+    why_curated_title: "منتجات مختارة",
+    why_curated_text: "منتجات ذات جودة عالية مختارة بعناية للأداء والمتانة.",
+    why_local_title: "محلي وموثوق",
+    why_local_text: "مصمم لتونس مع توصيل سريع ودعم محلي.",
+    why_secure_title: "خلاص آمن",
+    why_secure_text: "المعطيات والخلاص متاعك محميين في كل مرحلة.",
+
+    feedback: "ملاحظة",
+    send_feedback: "إبعث",
+    whatsapp_hint: "ولا تنجم تكلمنا مباشرة على واتساب"
   }
 };
+
 
 /* =====================
    LANGUAGE ENFORCEMENT
