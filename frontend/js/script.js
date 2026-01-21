@@ -17,6 +17,7 @@ const translations = {
     products: "Products",
     cart: "Cart",
     contact: "Contact",
+    add_to_cart: "Add to Cart",
 
     home_title: "Best Tunisian E-commerce Store",
     home_sub: "Premium products built for trust, quality, and scale.",
@@ -55,8 +56,6 @@ const translations = {
     why_local_text: "Built for Tunisia with fast shipping and local support.",
     why_secure_title: "Secure Checkout",
     why_secure_text: "Your data and payments are protected at every step.",
-    add_to_cart: "Add to Cart",
-    see_details: "See Details",
 
     feedback: "Feedback",
     send_feedback: "Send Feedback",
@@ -68,7 +67,7 @@ const translations = {
     products: "Produits",
     cart: "Panier",
     contact: "Contact",
-    see_details: "Voir les détails",
+    add_to_cart: "Ajouter au panier",
 
     home_title: "La meilleure boutique e-commerce tunisienne",
     home_sub: "Produits premium basés sur la confiance et la qualité.",
@@ -107,7 +106,6 @@ const translations = {
     why_local_text: "Conçu pour la Tunisie avec livraison rapide et support local.",
     why_secure_title: "Paiement sécurisé",
     why_secure_text: "Vos données et paiements sont protégés à chaque étape.",
-    add_to_cart: "Ajouter au panier",
 
     feedback: "Avis",
     send_feedback: "Envoyer",
@@ -119,6 +117,7 @@ const translations = {
     products: "البرودوي",
     cart: "السلة",
     contact: "إتصل بينا",
+    add_to_cart: "زيد للسلة",
 
     home_title: "أحسن متجر تونسي أونلاين",
     home_sub: "منتوجات مضمونة، جودة وثقة.",
@@ -127,7 +126,6 @@ const translations = {
     products_title: "البرودوي",
     cart_title: "السلة متاعك",
     checkout_title: "الخلاص",
-    see_details: "شوف التفاصيل",
 
     contact_title: "إتصل بينا",
     contact_sub: "عندك سؤال ولا ملاحظة؟ يسعدنا نجاوبوك.",
@@ -158,7 +156,7 @@ const translations = {
     why_local_text: "مصمم لتونس مع توصيل سريع ودعم محلي.",
     why_secure_title: "خلاص آمن",
     why_secure_text: "المعطيات والخلاص متاعك محميين في كل مرحلة.",
-    add_to_cart: "زيد في السلة",
+
     feedback: "ملاحظة",
     send_feedback: "إبعث",
     whatsapp_hint: "ولا تنجم تكلمنا مباشرة على واتساب"
@@ -421,101 +419,38 @@ function initLanguageSwitcher() {
    INIT
 ===================== */
 document.addEventListener("DOMContentLoaded", () => {
-  // =====================
-  // INIT CORE
-  // =====================
   updateCartCount();
   renderCart();
   applyTranslation();
   initContactForm();
   initLanguageSwitcher();
-
-  // =====================
-  // CARD PAYMENT WARNING
-  // =====================
+  
   const payBtn = document.getElementById("payBtn");
-  if (payBtn) {
-    payBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
-    });
-  }
 
-  // =====================
-  // SEE DETAILS MODAL
-  // =====================
- document.querySelectorAll(".see-details").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const product = btn.closest(".product");
-    if (!product) return;
+if (payBtn) {
+  payBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
+  });
+}
 
-    const lang = localStorage.getItem("lang") || "en";
 
-    /* =====================
-       IMAGES
-    ===================== */
-    const imgs = product.dataset.imgs
-      ? product.dataset.imgs.split(",")
-      : [];
+  document.querySelectorAll(".addToCart").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const product = btn.closest(".product");
+      if (!product) return;
 
-    const mainImg = document.getElementById("detailsMainImage");
-    const thumbs = document.getElementById("detailsThumbs");
-
-    thumbs.innerHTML = "";
-    mainImg.src = imgs[0] || "";
-
-    imgs.forEach((src, i) => {
-      const img = document.createElement("img");
-      img.src = src.trim();
-      if (i === 0) img.classList.add("active");
-
-      img.onclick = () => {
-        thumbs.querySelectorAll("img").forEach(t =>
-          t.classList.remove("active")
-        );
-        img.classList.add("active");
-        mainImg.src = src;
-      };
-
-      thumbs.appendChild(img);
-    });
-
-    /* =====================
-       TEXT (TRANSLATION SAFE)
-    ===================== */
-    document.getElementById("detailsName").textContent =
-      product.dataset.name;
-
-    document.getElementById("detailsPrice").textContent =
-      `${product.dataset.price} TND`;
-
-    const descKey = `desc-${lang}`;
-    document.getElementById("detailsDescription").textContent =
-      product.dataset[descKey] || product.dataset["desc-en"] || "";
-
-    document.getElementById("detailsAddToCart").onclick = () => {
       addToCart(
         product.dataset.name,
         Number(product.dataset.price)
       );
-    };
-
-    /* =====================
-       OPEN MODAL + TRANSLATE
-    ===================== */
-    const modal = document.getElementById("productDetails");
-    modal.classList.add("active");
-
-    applyTranslation(); // 🔥 THIS FIXES YOUR ISSUE
+    });
   });
-});
 
-/* =====================
-   CLOSE MODAL
-===================== */
-document.getElementById("closeDetails")?.addEventListener("click", () => {
-  document.getElementById("productDetails").classList.remove("active");
-});
+  const codBtn = document.getElementById("codBtn");
+  if (codBtn) {
+    codBtn.addEventListener("click", checkoutCOD);
+  }
 });
 
 
