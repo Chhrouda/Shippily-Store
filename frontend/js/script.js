@@ -172,7 +172,7 @@ const translations = {
     const lang = localStorage.getItem("lang");
     const path = window.location.pathname;
     const isLangPage = path.endsWith("/lang.html") || path.endsWith("lang.html");
-
+    const isBot = /bot|google|crawler|spider|bing|yandex/i.test(navigator.userAgent);
     if (!lang && !isLangPage) {
       window.location.replace("/lang.html");
     }
@@ -414,6 +414,7 @@ function initLanguageSwitcher() {
     });
   });
 }
+
 
 /* =====================
    INIT
