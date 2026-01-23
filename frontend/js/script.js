@@ -9,13 +9,6 @@ const API_URL = "https://shippily-store.onrender.com";
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* =====================
-   LANGUAGE INIT (SEO SAFE)
-===================== */
-const DEFAULT_LANG = "en";
-let currentLang = localStorage.getItem("lang") || DEFAULT_LANG;
-document.documentElement.lang = currentLang;
-
-/* =====================
    TRANSLATIONS
 ===================== */
 const translations = {
@@ -45,6 +38,12 @@ const translations = {
     pay_cod: "Pay on Delivery",
     pay_card: "Pay with Card",
 
+    trust_text: "Payment on delivery · 24–72h delivery in Tunisia · WhatsApp support",
+
+    full_name: "Full Name",
+    email: "Email",
+    address: "Address",
+
     fast_delivery: "Fast Delivery",
     secure_payments: "Secure Payments",
     tunisian_store: "Tunisian Store",
@@ -60,11 +59,7 @@ const translations = {
 
     feedback: "Feedback",
     send_feedback: "Send Feedback",
-    whatsapp_hint: "Or contact us directly on WhatsApp",
-
-    full_name: "Full Name",
-    email: "Email",
-    address: "Address"
+    whatsapp_hint: "Or contact us directly on WhatsApp"
   },
 
   fr: {
@@ -93,6 +88,12 @@ const translations = {
     pay_cod: "Paiement à la livraison",
     pay_card: "Payer par carte",
 
+    trust_text: "Paiement à la livraison · Livraison 24–72h en Tunisie · Support WhatsApp",
+
+    full_name: "Nom complet",
+    email: "Email",
+    address: "Adresse",
+
     fast_delivery: "Livraison rapide",
     secure_payments: "Paiements sécurisés",
     tunisian_store: "Boutique tunisienne",
@@ -108,11 +109,7 @@ const translations = {
 
     feedback: "Avis",
     send_feedback: "Envoyer",
-    whatsapp_hint: "Ou contactez-nous directement sur WhatsApp",
-
-    full_name: "Nom complet",
-    email: "Email",
-    address: "Adresse"
+    whatsapp_hint: "Ou contactez-nous directement sur WhatsApp"
   },
 
   tn: {
@@ -141,6 +138,12 @@ const translations = {
     pay_cod: "خلاص عند التسليم",
     pay_card: "خلاص بالكارطة",
 
+    trust_text: "الخلاص عند التسليم · التوصيل 24–72 ساعة · واتساب",
+
+    full_name: "الإسم الكامل",
+    email: "الإيميل",
+    address: "العنوان",
+
     fast_delivery: "توصيل سريع",
     secure_payments: "خلاص آمن",
     tunisian_store: "ستور تونسي",
@@ -156,28 +159,52 @@ const translations = {
 
     feedback: "ملاحظة",
     send_feedback: "إبعث",
-    whatsapp_hint: "ولا تنجم تكلمنا مباشرة على واتساب",
-
-    full_name: "الإسم الكامل",
-    email: "الإيميل",
-    address: "العنوان"
+    whatsapp_hint: "ولا تنجم تكلمنا مباشرة على واتساب"
   }
 };
 
+
 /* =====================
-   CART HELPERS
+   LANGUAGE ENFORCEMENT
+===================== */
+(function enforceLanguage() {
+  try {
+    const lang = localStorage.getItem("lang");
+    const path = window.location.pathname;
+    const isLangPage = path.endsWith("/lang.html") || path.endsWith("lang.html");
+
+    if (!lang && !isLangPage) {
+      window.location.replace("/lang.html");
+    }
+  } catch (err) {
+    console.warn("Language enforcement skipped:", err);
+  }
+})();
+
+/* =====================
+   HELPERS
 ===================== */
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 function updateCartCount() {
-  const count = cart.reduce((s, i) => s + i.quantity, 0);
-  document.querySelectorAll("#cartCount").forEach(el => {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.querySelectorAll("#cartCount, #floatingCount").forEach(el => {
     if (el) el.textContent = count;
   });
 }
+function clearCart() {
+  cart = [];
+  localStorage.removeItem("cart");
+  updateCartCount();
+  renderCart();
+}
 
+
+/* =====================
+   CART ACTIONS
+===================== */
 function addToCart(name, price) {
   const item = cart.find(p => p.name === name);
   if (item) item.quantity++;
@@ -187,44 +214,55 @@ function addToCart(name, price) {
   updateCartCount();
 }
 
+function removeOne(name) {
+  const item = cart.find(p => p.name === name);
+  if (!item) return;
+
+  item.quantity--;
+  if (item.quantity <= 0) {
+    cart = cart.filter(p => p.name !== name);
+  }
+
+  saveCart();
+  renderCart();
+  updateCartCount();
+}
+
 /* =====================
-   CART RENDER
+   RENDER CART
 ===================== */
 function renderCart() {
   const container = document.getElementById("cartItems");
   const totalEl = document.getElementById("cartTotal");
   if (!container || !totalEl) return;
 
-  const t = translations[currentLang];
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang] || translations.en;
+
   container.innerHTML = "";
   let total = 0;
 
-  if (!cart.length) {
+  if (cart.length === 0) {
     container.innerHTML = `<p>${t.empty_cart}</p>`;
     totalEl.textContent = "0.00";
     return;
   }
 
   cart.forEach(item => {
-    const line = item.price * item.quantity;
-    total += line;
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
 
     const div = document.createElement("div");
     div.className = "cart-item";
     div.innerHTML = `
       <strong>${item.name} x${item.quantity}</strong>
-      <span>${line.toFixed(2)} TND</span>
+      <span>${lineTotal.toFixed(2)} TND</span>
       <button class="remove-btn">${t.remove}</button>
     `;
 
-    div.querySelector("button").onclick = () => {
-      item.quantity--;
-      if (item.quantity <= 0)
-        cart = cart.filter(p => p.name !== item.name);
-      saveCart();
-      renderCart();
-      updateCartCount();
-    };
+    div.querySelector(".remove-btn").addEventListener("click", () => {
+      removeOne(item.name);
+    });
 
     container.appendChild(div);
   });
@@ -233,17 +271,123 @@ function renderCart() {
 }
 
 /* =====================
+   WHATSAPP COD
+===================== */
+function checkoutCOD() {
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang] || translations.en;
+
+  if (cart.length === 0) {
+    alert(t.empty_cart);
+    return;
+  }
+
+  const form = document.getElementById("checkoutForm");
+  if (!form) return;
+
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const address = form.address.value.trim();
+
+  // ✅ REQUIRED FIELDS CHECK
+  if (!name || !email || !address) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  // ✅ BUILD WHATSAPP MESSAGE
+  let message = "Nouvelle commande:%0A%0A";
+  let total = 0;
+
+  cart.forEach(item => {
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
+    message += `• ${item.name} x${item.quantity} = ${lineTotal} TND%0A`;
+  });
+
+  message += `%0A💰 Total: ${total} TND`;
+  message += `%0A📍 Paiement à la livraison`;
+  message += `%0A👤 ${name}`;
+  message += `%0A📧 ${email}`;
+  message += `%0A🏠 ${address}`;
+
+  // ✅ OPEN WHATSAPP
+  window.open(
+    `https://wa.me/21620342004?text=${message}`,
+    "_blank"
+  );
+
+  // ✅ CLEAR CART AFTER SUCCESS
+  clearCart();
+}
+
+
+function generateInvoice(customer) {
+  const orderNumber = "SH-" + Date.now();
+  const date = new Date().toLocaleDateString("fr-TN");
+
+  document.getElementById("invOrder").textContent = orderNumber;
+  document.getElementById("invDate").textContent = date;
+
+  document.getElementById("invName").textContent = customer.name;
+  document.getElementById("invEmail").textContent = customer.email;
+  document.getElementById("invAddress").textContent = customer.address;
+
+  const itemsBox = document.getElementById("invItems");
+  itemsBox.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item => {
+    const line = document.createElement("p");
+    const lineTotal = item.price * item.quantity;
+    total += lineTotal;
+
+    line.textContent = `${item.name} x${item.quantity} — ${lineTotal} TND`;
+    itemsBox.appendChild(line);
+  });
+
+  document.getElementById("invTotal").textContent = total.toFixed(2);
+
+  document.getElementById("invoicePanel").classList.add("active");
+}
+
+/* =====================
+   CONTACT FORM
+===================== */
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const name = form.querySelector("input[type=text]").value.trim();
+    const email = form.querySelector("input[type=email]").value.trim();
+    const msg = form.querySelector("textarea").value.trim();
+
+    if (!name || !email || !msg) return;
+
+    const text = `📩 New Message\n\n👤 ${name}\n📧 ${email}\n\n💬 ${msg}`;
+    window.open(
+      `https://wa.me/21620342004?text=${encodeURIComponent(text)}`,
+      "_blank"
+    );
+
+    form.reset();
+  });
+}
+
+/* =====================
    TRANSLATION ENGINE
 ===================== */
 function applyTranslation() {
-  const t = translations[currentLang];
-
-  document.documentElement.lang = currentLang;
-
+  const lang = localStorage.getItem("lang") || "en";
+  const t = translations[lang] || translations.en;
   const titleEl = document.querySelector("title[data-i18n]");
   if (titleEl && t[titleEl.dataset.i18n]) {
-    titleEl.textContent = t[titleEl.dataset.i18n];
-  }
+  titleEl.textContent = t[titleEl.dataset.i18n];
+}
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
@@ -255,37 +399,20 @@ function applyTranslation() {
    LANGUAGE SWITCHER
 ===================== */
 function initLanguageSwitcher() {
+  const currentLang = localStorage.getItem("lang");
+
   document.querySelectorAll(".lang-change").forEach(btn => {
-    btn.onclick = () => {
-      currentLang = btn.dataset.lang;
-      localStorage.setItem("lang", currentLang);
-      applyTranslation();
-    };
+    const btnLang = btn.dataset.lang;
+
+    if (btnLang === currentLang) {
+      btn.classList.add("active");
+    }
+
+    btn.addEventListener("click", () => {
+      localStorage.setItem("lang", btnLang);
+      location.reload();
+    });
   });
-}
-
-/* =====================
-   CONTACT FORM
-===================== */
-function initContactForm() {
-  const form = document.getElementById("contactForm");
-  if (!form) return;
-
-  form.onsubmit = e => {
-    e.preventDefault();
-    const name = form.querySelector("input[type=text]").value.trim();
-    const email = form.querySelector("input[type=email]").value.trim();
-    const msg = form.querySelector("textarea").value.trim();
-    if (!name || !email || !msg) return;
-
-    window.open(
-      `https://wa.me/21620342004?text=${encodeURIComponent(
-        `📩 Message\n\n👤 ${name}\n📧 ${email}\n\n💬 ${msg}`
-      )}`,
-      "_blank"
-    );
-    form.reset();
-  };
 }
 
 /* =====================
@@ -295,10 +422,36 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
   renderCart();
   applyTranslation();
-  initLanguageSwitcher();
   initContactForm();
-});
+  initLanguageSwitcher();
+  
+  const payBtn = document.getElementById("payBtn");
 
+if (payBtn) {
+  payBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
+  });
+}
+
+
+  document.querySelectorAll(".addToCart").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const product = btn.closest(".product");
+      if (!product) return;
+
+      addToCart(
+        product.dataset.name,
+        Number(product.dataset.price)
+      );
+    });
+  });
+
+  const codBtn = document.getElementById("codBtn");
+  if (codBtn) {
+    codBtn.addEventListener("click", checkoutCOD);
+  }
+});
 
 
 
