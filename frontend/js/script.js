@@ -164,22 +164,6 @@ const translations = {
 };
 
 
-/* =====================
-   LANGUAGE ENFORCEMENT
-===================== */
-(function enforceLanguage() {
-  try {
-    const lang = localStorage.getItem("lang");
-    const path = window.location.pathname;
-    const isLangPage = path.endsWith("/lang.html") || path.endsWith("lang.html");
-
-    if (!lang && !isLangPage) {
-      window.location.replace("/lang.html");
-    }
-  } catch (err) {
-    console.warn("Language enforcement skipped:", err);
-  }
-})();
 
 /* =====================
    HELPERS
@@ -382,12 +366,14 @@ function initContactForm() {
    TRANSLATION ENGINE
 ===================== */
 function applyTranslation() {
-  const lang = localStorage.getItem("lang") || "en";
-  const t = translations[lang] || translations.en;
+  const t = translations[currentLang];
+
+  document.documentElement.lang = currentLang;
+
   const titleEl = document.querySelector("title[data-i18n]");
   if (titleEl && t[titleEl.dataset.i18n]) {
-  titleEl.textContent = t[titleEl.dataset.i18n];
-}
+    titleEl.textContent = t[titleEl.dataset.i18n];
+  }
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
@@ -395,26 +381,27 @@ function applyTranslation() {
   });
 }
 
+
 /* =====================
    LANGUAGE SWITCHER
 ===================== */
 function initLanguageSwitcher() {
-  const currentLang = localStorage.getItem("lang");
-
   document.querySelectorAll(".lang-change").forEach(btn => {
-    const btnLang = btn.dataset.lang;
-
-    if (btnLang === currentLang) {
-      btn.classList.add("active");
-    }
-
     btn.addEventListener("click", () => {
-      localStorage.setItem("lang", btnLang);
-      location.reload();
+      const newLang = btn.dataset.lang;
+      localStorage.setItem("lang", newLang);
+      document.documentElement.lang = newLang;
+      applyTranslation();
     });
   });
 }
 
+/* =====================
+   LANGUAGE INIT (SEO SAFE)
+===================== */
+const DEFAULT_LANG = "en";
+const lang = localStorage.getItem("lang") || DEFAULT_LANG;
+document.documentElement.lang = lang;
 /* =====================
    INIT
 ===================== */
