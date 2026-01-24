@@ -39,10 +39,12 @@ const translations = {
     cart: "Cart",
     contact: "Contact",
     add_to_cart: "Add to Cart",
+    see_details: "See Details",
 
     home_title: "Best Tunisian E-commerce Store",
     home_sub: "Premium products built for trust, quality, and scale.",
     explore: "Explore Products",
+    product_default_desc: "High-quality product selected by Shippily.",
 
     products_title: "Products",
     cart_title: "Your Cart",
@@ -69,6 +71,11 @@ const translations = {
     secure_payments: "Secure Payments",
     tunisian_store: "Tunisian Store",
     verified_products: "Verified Products",
+    
+details_page_title: "Details Page",
+ask_on_whatsapp: "Ask on WhatsApp",
+trust_line: "24–72h · TN Tunisia · Pay on delivery",
+
 
     why_title: "Why Shippily?",
     why_curated_title: "Curated Products",
@@ -88,6 +95,13 @@ const translations = {
     cart: "Panier",
     contact: "Contact",
     add_to_cart: "Ajouter au panier",
+    see_details: "Voir les détails",
+    
+    details_page_title: "Détails du produit",
+    ask_on_whatsapp: "Demander sur WhatsApp",
+    trust_line: "24–72h · TN Tunisie · Paiement à la livraison",
+    product_default_desc: "Produit de haute qualité sélectionné par Shippily.",
+
 
     home_title: "La meilleure boutique e-commerce tunisienne",
     home_sub: "Produits premium basés sur la confiance et la qualité.",
@@ -137,10 +151,17 @@ const translations = {
     cart: "السلة",
     contact: "إتصل بينا",
     add_to_cart: "زيد للسلة",
+    see_details: "شوف التفاصيل",
+    
+details_page_title: "تفاصيل المنتج",
+ask_on_whatsapp: "أسأل على واتساب",
+trust_line: "24–72 · تونس · خلاص عند التسليم",
+
 
     home_title: "أحسن متجر تونسي أونلاين",
     home_sub: "منتوجات مضمونة، جودة وثقة.",
     explore: "شوف البرودوي",
+    product_default_desc: "منتج عالي الجودة مختار من Shippily.",
 
     products_title: "البرودوي",
     cart_title: "السلة متاعك",
@@ -506,6 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {  // ✅ valid
   function openModal(prod) {
     currentProduct = prod;
     lastFocused = document.activeElement;
+    
 
     // Fill content
     nameEl.textContent = prod.name;
@@ -648,7 +670,7 @@ if (addBtn) {
       priceValue,
       image,
       images: [image, image, image],
-      desc: 'High-quality product selected by Shippily.'
+      desc: (card.dataset.desc && card.dataset.desc.trim()) || tKey('product_default_desc')
     };
 
     openModal(prod);
@@ -659,5 +681,11 @@ if (addBtn) {
     if (e.target.matches('[data-close-modal]')) closeModal();
   });
 })();
+
+function tKey(key) {
+  const lang = getInitialLang();
+  const t = translations[lang] || translations.en;
+  return t[key] || translations.en[key] || key;
+}
 
 

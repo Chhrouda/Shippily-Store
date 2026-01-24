@@ -166,17 +166,24 @@
 
   <div class="products" id="products-list">
 
-    
-<div class="product"
-     data-name="Backpack"
-     data-price="12"
-     data-images="https://picsum.photos/id/1015/800/600, https://picsum.photos/id/1016/800/600, https://picsum.photos/id/1018/800/600">
-  <img src="https://picsum.photos/300?1" />
-  <h3>Backpack</h3>
-  <p>TND 12</p>
-  <button type="button" class="see-details-btn">See details</button>
-  <button class="addToCart">Add to Cart</button>
-</div>
+    <div class="product" data-name="Backpack" data-price="12">
+      <img src="https://picsum.photos/300?1" />
+      <h3 data-i18n="product_backpack">Backpack</h3>
+      <p data-i18n="price_12">TND 12</p>
+
+
+      <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
+
+      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
+    </div>
 
     <div class="product" data-name="Watch" data-price="22">
       <img src="https://picsum.photos/300?2" />
@@ -346,7 +353,7 @@
   <div class="modal-dialog" role="document">
     <!-- Header -->
     <div class="modal-header">
-      <h2 id="modalTitle" class="details-title">Details Page</h2>
+      <h2 id="modalTitle" class="details-title" data-i18n="details_page_title">Details Page</h2>
       <button class="modal-close" type="button" aria-label="Close" data-close-modal>✕</button>
     </div>
 
@@ -370,23 +377,27 @@
 
   <p id="mDesc" class="details-desc"></p>
 
-  <div class="details-actions">
-    <button id="mAddToCart" class="addToCart primary-cta" type="button" data-i18n="add_to_cart">
-      Add to Cart
-    </button>
+  
+<div class="details-actions">
+  <button id="mAddToCart" class="addToCart primary-cta" type="button" data-i18n="add_to_cart">
+    Add to Cart
+  </button>
+
 
     <a id="mWA" class="wa-btn modern" target="_blank" rel="noopener">
       <svg class="wa-icon" viewBox="0 0 32 32" aria-hidden="true">
         <path fill="currentColor"
           d="M19.1 17.5c-.3-.2-1.6-.8-1.8-.9-.2-.1-.3-.2-.5 0-.2.2-.6.9-.8 1-.1.1-.3.1-.5 0-1.4-.6-2.4-1.8-3-3.1-.1-.2 0-.3.1-.5.1-.1.2-.3.3-.4.1-.1.1-.2.2-.3.1-.1.1-.3 0-.4l-.9-2c-.2-.6-.4-.6-.6-.6h-.5c-.2 0-.4.1-.6.3-.7.7-1 1.6-1 2.5 0 .3 0 .6.1 .9.4 1.5 1.3 2.9 2.5 4 1.2 1.1 2.7 1.9 4.3 2.2.3.1.7.1 1 .1.7 0 1.5-.2 2.1-.6.5-.3 1.1-.9 1.2-1.4.1-.4.1-.8 0-.9 0-.1-.1-.1-.2-.2zM16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.8L4 29l8.4-1.6C14.1 28.4 15.9 29 18 29c6.6 0 12-5.4 12-12S22.6 3 16 3z"/>
       </svg>
-      <span>Ask on WhatsApp</span>
+      <span data-i18n="ask_on_whatsapp">Ask on WhatsApp</span>
     </a>
   </div>
 
-  <div class="details-trust">
-    🚚 24–72h · 🇹🇳 Tunisia · 🔒 Pay on delivery
-  </div>
+  
+<div class="details-trust" data-i18n="trust_line">
+  24–72h · TN Tunisia · Pay on delivery
+</div>
+
 </div>
 
 
