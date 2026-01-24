@@ -6,18 +6,18 @@
 
   <!-- PRIMARY SEO -->
   <title data-i18n="home_title">Shippily Store</title>
-  <meta name="description" content="Shippily Store - Fast & Reliable Shipping in Tunisia" />
+  <meta name="description" content="Shippily Store - Fast & Reliable Shipping" />
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://shippily-store.onrender.com/" />
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
-  <!-- GOOGLE VERIFICATION -->
-  <meta name="google-site-verification" content="CVHyibLJFlpxxl50amtHcXj7z6N5MGu3jPVc8rhmwyo" />
 
   <!-- OPEN GRAPH -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Shippily Store" />
   <meta property="og:description" content="Fast & Reliable Shipping from Tunisia" />
   <meta property="og:url" content="https://shippily-store.onrender.com/" />
+  <meta property="og:site_name" content="Shippily Store" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- STYLES -->
   <link rel="stylesheet" href="css/style.css" />
@@ -25,95 +25,85 @@
 
 <body>
 
-<noscript>
-  <div style="padding:16px; background:#fff3cd; color:#000;">
-    This website works best with JavaScript enabled.  
-    Content is still accessible without it.
-  </div>
-</noscript>
-
 <header>
-  <div class="nav">
+  <nav class="nav">
     <strong>Shippily</strong>
 
-    <nav>
+    <div>
       <a href="index.html" data-i18n="home">Home</a>
       <a href="products.html" data-i18n="products">Products</a>
 
       <a href="cart.html" class="cart-link">
-        <span data-i18n="cart">Cart</span>
-        (<span id="cartCount">0</span>)
+        <span data-i18n="cart">Cart</span> (<span id="cartCount">0</span>)
       </a>
 
       <a href="contact.html" data-i18n="contact">Contact</a>
-    </nav>
+    </div>
 
     <div class="lang-switcher">
       <button class="lang-change" data-lang="tn">TN</button>
       <button class="lang-change" data-lang="fr">FR</button>
       <button class="lang-change" data-lang="en">EN</button>
     </div>
-  </div>
+  </nav>
 </header>
 
 <main>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-overlay"></div>
 
-    <div class="hero-box">
-      <h1 data-i18n="home_title">
-        Best Tunisian E-commerce Store
-      </h1>
+  <div class="hero-box">
+    <h1 data-i18n="home_title">Best Tunisian E-commerce Store</h1>
 
-      <p data-i18n="home_sub">
-        Premium products built for trust, quality, and scale.
+    <p data-i18n="home_sub">
+      Premium products built for trust, quality, and scale.
+    </p>
+
+    <a href="products.html" class="hero-btn" data-i18n="explore">
+      Explore Products
+    </a>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="trust-container">
+    <div class="trust-item">🚚 <span data-i18n="fast_delivery">Fast Delivery</span></div>
+    <div class="trust-item">🔒 <span data-i18n="secure_payments">Secure Payments</span></div>
+    <div class="trust-item">🇹🇳 <span data-i18n="tunisian_store">Tunisian Store</span></div>
+    <div class="trust-item">⭐ <span data-i18n="verified_products">Verified Products</span></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <h2 data-i18n="why_title">Why Shippily?</h2>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <h3 data-i18n="why_curated_title">Curated Products</h3>
+      <p data-i18n="why_curated_text">
+        Only high-quality products selected for performance and durability.
       </p>
-
-      <a href="products.html" class="hero-btn" data-i18n="explore">
-        Explore Products
-      </a>
     </div>
-  </section>
 
-  <!-- TRUST -->
-  <section class="trust">
-    <div class="trust-container">
-      <div class="trust-item">🚚 <span data-i18n="fast_delivery">Fast Delivery</span></div>
-      <div class="trust-item">🔒 <span data-i18n="secure_payments">Secure Payments</span></div>
-      <div class="trust-item">🇹🇳 <span data-i18n="tunisian_store">Tunisian Store</span></div>
-      <div class="trust-item">⭐ <span data-i18n="verified_products">Verified Products</span></div>
+    <div class="why-card">
+      <h3 data-i18n="why_local_title">Local & Reliable</h3>
+      <p data-i18n="why_local_text">
+        Built for Tunisia with fast shipping and local support.
+      </p>
     </div>
-  </section>
 
-  <!-- WHY -->
-  <section class="why">
-    <h2 data-i18n="why_title">Why Shippily?</h2>
-
-    <div class="why-grid">
-      <div class="why-card">
-        <h3 data-i18n="why_curated_title">Curated Products</h3>
-        <p data-i18n="why_curated_text">
-          Only high-quality products selected for performance and durability.
-        </p>
-      </div>
-
-      <div class="why-card">
-        <h3 data-i18n="why_local_title">Local & Reliable</h3>
-        <p data-i18n="why_local_text">
-          Built for Tunisia with fast shipping and local support.
-        </p>
-      </div>
-
-      <div class="why-card">
-        <h3 data-i18n="why_secure_title">Secure Checkout</h3>
-        <p data-i18n="why_secure_text">
-          Your data and payments are protected at every step.
-        </p>
-      </div>
+    <div class="why-card">
+      <h3 data-i18n="why_secure_title">Secure Checkout</h3>
+      <p data-i18n="why_secure_text">
+        Your data and payments are protected at every step.
+      </p>
     </div>
-  </section>
+  </div>
+</section>
 
 </main>
 
@@ -121,7 +111,7 @@
   <div class="footer-container">
     <p><strong>Shippily Store</strong> — Boutique en ligne tunisienne</p>
 
-    <div class="footer-links">
+    <nav class="footer-links">
       <a href="mentions-legales.html">Mentions légales</a>
       <a href="cgv.html">CGV</a>
       <a href="retours.html">Politique de retour</a>
@@ -129,7 +119,7 @@
       <a href="confidentialite.html">Confidentialité</a>
       <a href="facture.html">Demande de facture</a>
       <a href="contact.html">Contact</a>
-    </div>
+    </nav>
 
     <p class="footer-contact">
       📞 +216 20 342 004 · 💬 WhatsApp support
@@ -146,29 +136,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

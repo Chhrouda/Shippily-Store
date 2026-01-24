@@ -1,12 +1,33 @@
+
 /* =====================
    CONFIG
 ===================== */
 const API_URL = "https://shippily-store.onrender.com";
 
 /* =====================
+   SAFE STORAGE HELPERS
+===================== */
+function safeGet(key, fallback = null) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+  catch { return fallback; }
+}
+function safeSet(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+function safeSetRaw(key, value) {
+  try { localStorage.setItem(key, value); } catch {}
+}
+function safeGetRaw(key, fallback = null) {
+  try {
+    const v = localStorage.getItem(key);
+    return v === null ? fallback : v;
+  } catch { return fallback; }
+}
+
+/* =====================
    CART STATE
 ===================== */
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = safeGet("cart", []);
 
 /* =====================
    TRANSLATIONS
@@ -61,7 +82,6 @@ const translations = {
     send_feedback: "Send Feedback",
     whatsapp_hint: "Or contact us directly on WhatsApp"
   },
-
   fr: {
     home: "Accueil",
     products: "Produits",
@@ -111,7 +131,6 @@ const translations = {
     send_feedback: "Envoyer",
     whatsapp_hint: "Ou contactez-nous directement sur WhatsApp"
   },
-
   tn: {
     home: "الرئيسية",
     products: "البرودوي",
@@ -163,28 +182,38 @@ const translations = {
   }
 };
 
+/* =====================
+   LANGUAGE STRATEGY (SEO-SAFE)
+   - No forced redirect.
+   - Use existing <html lang="..."> as default.
+   - Respect stored preference if available.
+===================== */
+function getInitialLang() {
+  const stored = safeGetRaw("lang", null);
+  if (stored && translations[stored]) return stored;
 
+  // Fallback to document <html lang>, else 'en'
+  const docLang = (document.documentElement.getAttribute("lang") || "en");
+  return translations[docLang] ? docLang : "en";
+}
 
 /* =====================
    HELPERS
 ===================== */
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
+function saveCart() { safeSet("cart", cart); }
 
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
   document.querySelectorAll("#cartCount, #floatingCount").forEach(el => {
-    if (el) el.textContent = count;
+    if (el) el.textContent = String(count);
   });
 }
 function clearCart() {
   cart = [];
-  localStorage.removeItem("cart");
+  try { localStorage.removeItem("cart"); } catch {}
   updateCartCount();
   renderCart();
 }
-
 
 /* =====================
    CART ACTIONS
@@ -220,7 +249,7 @@ function renderCart() {
   const totalEl = document.getElementById("cartTotal");
   if (!container || !totalEl) return;
 
-  const lang = localStorage.getItem("lang") || "en";
+  const lang = getInitialLang();
   const t = translations[lang] || translations.en;
 
   container.innerHTML = "";
@@ -241,7 +270,7 @@ function renderCart() {
     div.innerHTML = `
       <strong>${item.name} x${item.quantity}</strong>
       <span>${lineTotal.toFixed(2)} TND</span>
-      <button class="remove-btn">${t.remove}</button>
+      <button class="remove-btn" type="button">${t.remove}</button>
     `;
 
     div.querySelector(".remove-btn").addEventListener("click", () => {
@@ -258,7 +287,7 @@ function renderCart() {
    WHATSAPP COD
 ===================== */
 function checkoutCOD() {
-  const lang = localStorage.getItem("lang") || "en";
+  const lang = getInitialLang();
   const t = translations[lang] || translations.en;
 
   if (cart.length === 0) {
@@ -269,17 +298,15 @@ function checkoutCOD() {
   const form = document.getElementById("checkoutForm");
   if (!form) return;
 
-  const name = form.name.value.trim();
-  const email = form.email.value.trim();
-  const address = form.address.value.trim();
+  const name = (form.name?.value || "").trim();
+  const email = (form.email?.value || "").trim();
+  const address = (form.address?.value || "").trim();
 
-  // ✅ REQUIRED FIELDS CHECK
   if (!name || !email || !address) {
     alert("Please fill all required fields");
     return;
   }
 
-  // ✅ BUILD WHATSAPP MESSAGE
   let message = "Nouvelle commande:%0A%0A";
   let total = 0;
 
@@ -295,45 +322,45 @@ function checkoutCOD() {
   message += `%0A📧 ${email}`;
   message += `%0A🏠 ${address}`;
 
-  // ✅ OPEN WHATSAPP
-  window.open(
-    `https://wa.me/21620342004?text=${message}`,
-    "_blank"
-  );
+  window.open(`https://wa.me/21620342004?text=${message}`, "_blank");
 
-  // ✅ CLEAR CART AFTER SUCCESS
   clearCart();
 }
 
-
+/* =====================
+   INVOICE (overlay)
+===================== */
 function generateInvoice(customer) {
   const orderNumber = "SH-" + Date.now();
   const date = new Date().toLocaleDateString("fr-TN");
 
-  document.getElementById("invOrder").textContent = orderNumber;
-  document.getElementById("invDate").textContent = date;
+  const byId = id => document.getElementById(id);
 
-  document.getElementById("invName").textContent = customer.name;
-  document.getElementById("invEmail").textContent = customer.email;
-  document.getElementById("invAddress").textContent = customer.address;
+  byId("invOrder") && (byId("invOrder").textContent = orderNumber);
+  byId("invDate") && (byId("invDate").textContent = date);
 
-  const itemsBox = document.getElementById("invItems");
-  itemsBox.innerHTML = "";
+  byId("invName") && (byId("invName").textContent = customer.name);
+  byId("invEmail") && (byId("invEmail").textContent = customer.email);
+  byId("invAddress") && (byId("invAddress").textContent = customer.address);
 
-  let total = 0;
+  const itemsBox = byId("invItems");
+  if (itemsBox) {
+    itemsBox.innerHTML = "";
+    let total = 0;
 
-  cart.forEach(item => {
-    const line = document.createElement("p");
-    const lineTotal = item.price * item.quantity;
-    total += lineTotal;
+    cart.forEach(item => {
+      const line = document.createElement("p");
+      const lineTotal = item.price * item.quantity;
+      total += lineTotal;
+      line.textContent = `${item.name} x${item.quantity} — ${lineTotal} TND`;
+      itemsBox.appendChild(line);
+    });
 
-    line.textContent = `${item.name} x${item.quantity} — ${lineTotal} TND`;
-    itemsBox.appendChild(line);
-  });
+    byId("invTotal") && (byId("invTotal").textContent = total.toFixed(2));
+  }
 
-  document.getElementById("invTotal").textContent = total.toFixed(2);
-
-  document.getElementById("invoicePanel").classList.add("active");
+  const panel = byId("invoicePanel");
+  if (panel && panel.classList) panel.classList.add("active");
 }
 
 /* =====================
@@ -346,9 +373,9 @@ function initContactForm() {
   form.addEventListener("submit", e => {
     e.preventDefault();
 
-    const name = form.querySelector("input[type=text]").value.trim();
-    const email = form.querySelector("input[type=email]").value.trim();
-    const msg = form.querySelector("textarea").value.trim();
+    const name = form.querySelector("input[type=text]")?.value.trim() || "";
+    const email = form.querySelector("input[type=email]")?.value.trim() || "";
+    const msg = form.querySelector("textarea")?.value.trim() || "";
 
     if (!name || !email || !msg) return;
 
@@ -363,45 +390,60 @@ function initContactForm() {
 }
 
 /* =====================
-   TRANSLATION ENGINE
+   TRANSLATION ENGINE (Progressive Enhancement)
 ===================== */
 function applyTranslation() {
-  const t = translations[currentLang];
+  const lang = getInitialLang();
+  const t = translations[lang] || translations.en;
 
-  document.documentElement.lang = currentLang;
-
+  // Update <title> if data-i18n is set and key exists
   const titleEl = document.querySelector("title[data-i18n]");
   if (titleEl && t[titleEl.dataset.i18n]) {
     titleEl.textContent = t[titleEl.dataset.i18n];
   }
 
+  // Only replace text if translation exists; do not blank SSR text
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.dataset.i18n;
-    if (t[key]) el.textContent = t[key];
+    if (key && t[key]) {
+      // Prefer textContent for safety; for placeholders use data-i18n-attr="placeholder"
+      const attr = el.dataset.i18nAttr;
+      if (attr) {
+        el.setAttribute(attr, t[key]);
+      } else {
+        el.textContent = t[key];
+      }
+    }
   });
 }
-
 
 /* =====================
    LANGUAGE SWITCHER
 ===================== */
 function initLanguageSwitcher() {
+  const currentLang = getInitialLang();
+
   document.querySelectorAll(".lang-change").forEach(btn => {
+    const btnLang = btn.dataset.lang;
+
+    if (btnLang === currentLang) {
+      btn.classList.add("active");
+      btn.setAttribute("aria-current", "true");
+    }
+
     btn.addEventListener("click", () => {
-      const newLang = btn.dataset.lang;
-      localStorage.setItem("lang", newLang);
-      document.documentElement.lang = newLang;
-      applyTranslation();
+      if (!btnLang || !translations[btnLang]) return;
+
+      safeSetRaw("lang", btnLang);
+
+      // If you have separate URLs per language, navigate:
+      // location.href = `/${btnLang}/`;
+      // Otherwise, just reload to apply JS translations:
+      location.reload();
     });
   });
 }
 
-/* =====================
-   LANGUAGE INIT (SEO SAFE)
-===================== */
-const DEFAULT_LANG = "en";
-const lang = localStorage.getItem("lang") || DEFAULT_LANG;
-document.documentElement.lang = lang;
 /* =====================
    INIT
 ===================== */
@@ -411,16 +453,14 @@ document.addEventListener("DOMContentLoaded", () => {
   applyTranslation();
   initContactForm();
   initLanguageSwitcher();
-  
+
   const payBtn = document.getElementById("payBtn");
-
-if (payBtn) {
-  payBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
-  });
-}
-
+  if (payBtn) {
+    payBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("💳 Card payment is not available yet.\nPlease choose Pay on Delivery.");
+    });
+  }
 
   document.querySelectorAll(".addToCart").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -439,24 +479,4 @@ if (payBtn) {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+``
