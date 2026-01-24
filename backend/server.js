@@ -119,17 +119,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
 
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".seeDetails");
-  if (!btn) return;
 
-  const product = btn.closest(".product");
-  const name = product.dataset.name;
-
-  // Redirect safely
-  window.location.href = `product.html?name=${encodeURIComponent(name)}`;
-});
-// =====================
 
 
 
