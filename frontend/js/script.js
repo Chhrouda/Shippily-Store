@@ -447,7 +447,10 @@ function initLanguageSwitcher() {
 /* =====================
    INIT
 ===================== */
-document.addEventListener("DOMContentLoaded", () => {
+/* =====================
+   DOM READY
+===================== */
+document.addEventListener("DOMContentLoaded", () => {  // ✅ valid
   updateCartCount();
   renderCart();
   applyTranslation();
@@ -479,4 +482,182 @@ document.addEventListener("DOMContentLoaded", () => {
     codBtn.addEventListener("click", checkoutCOD);
   }
 });
-``
+
+
+
+/* =====================
+   PRODUCT DETAILS MODAL
+===================== */
+(function initProductModal() {
+  const modal      = document.getElementById('productModal');
+  if (!modal) return;
+
+  const mainImg    = document.getElementById('mMainImg');
+  const thumbsWrap = document.getElementById('mThumbs');
+  const nameEl     = document.getElementById('mName');
+  const priceEl    = document.getElementById('mPrice');
+  const descEl     = document.getElementById('mDesc');
+  const addBtn     = document.getElementById('mAddToCart');
+  const waLink     = document.getElementById('mWA');
+
+  let currentProduct = null;
+  let lastFocused = null;
+
+  function openModal(prod) {
+    currentProduct = prod;
+    lastFocused = document.activeElement;
+
+    // Fill content
+    nameEl.textContent = prod.name;
+
+    if (prod.priceValue != null && !Number.isNaN(prod.priceValue)) {
+      priceEl.textContent = `${prod.priceValue} TND`;
+    } else {
+      priceEl.textContent = prod.price; // already includes currency text
+    }
+
+    descEl.textContent = prod.desc || 'High-quality product selected by Shippily.';
+
+    const images = Array.isArray(prod.images) && prod.images.length
+      ? prod.images
+      : [prod.image, prod.image, prod.image].filter(Boolean);
+
+    // Main image
+    if (images[0]) {
+      mainImg.src = images[0];
+      mainImg.alt = prod.name;
+    }
+
+    
+// Thumbs
+thumbsWrap.innerHTML = '';
+images.forEach((src, i) => {
+  const im = new Image();
+  im.src = src;
+  im.className = i === 0 ? 'active' : '';
+  im.loading = 'lazy';
+  im.tabIndex = 0; // keyboard focus
+  im.addEventListener('click', () => selectThumb(i, src, im));
+  im.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      selectThumb(i, src, im);
+    }
+  });
+  thumbsWrap.appendChild(im);
+});
+
+function selectThumb(index, src, el) {
+  // update active state
+  document.querySelectorAll('#mThumbs img').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  // cross-fade even if src is the same (to give visible feedback)
+  mainImg.classList.remove('fading-in');
+  mainImg.classList.add('fading-out');
+
+  // small timeout lets CSS animate out before swap
+  setTimeout(() => {
+    mainImg.src = src;
+
+    // When the new image is ready, fade in
+    if (mainImg.complete) {
+      mainImg.classList.remove('fading-out');
+      mainImg.classList.add('fading-in');
+    } else {
+      mainImg.onload = () => {
+        mainImg.classList.remove('fading-out');
+        mainImg.classList.add('fading-in');
+      };
+    }
+  }, 80);
+}
+
+
+    
+// WhatsApp link (keeps price pretty and up-to-date)
+const priceText = (prod.priceValue != null ? `${prod.priceValue} TND` : prod.price);
+const waText = `🛒 Product inquiry\n\n📦 ${prod.name}\n💰 ${priceText}`;
+waLink.href = `https://wa.me/21620342004?text=${encodeURIComponent(waText)}`;
+
+// Add to Cart (close after adding)
+if (addBtn) {
+  addBtn.onclick = () => {
+    const numericPrice = (prod.priceValue != null)
+      ? Number(prod.priceValue)
+      : Number(String(prod.price).replace(/\D+/g, ''));
+    addToCart(prod.name, numericPrice);
+    closeModal();
+  };
+}
+
+
+    // Open
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+
+    // Accessibility focus
+    setTimeout(() => {
+      modal.querySelector('.modal-close')?.focus();
+    }, 0);
+
+    // Close on Esc
+    document.addEventListener('keydown', onEsc);
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    document.removeEventListener('keydown', onEsc);
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
+  }
+
+  function onEsc(e) {
+    if (e.key === 'Escape') closeModal();
+  }
+
+  // Delegate clicks on See Details buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.see-details-btn, .seeDetails, .see-details');
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const card = btn.closest('.product');
+    if (!card) return;
+
+    // Build product data from card
+    const imgEl = card.querySelector('img');
+    const name = (card.dataset.name || card.querySelector('h3')?.textContent || '').trim();
+    const priceValue = card.dataset.price ? Number(card.dataset.price) : null;
+    const priceText  = card.querySelector('p')?.textContent?.trim()
+                    || (priceValue != null ? `${priceValue} TND` : '');
+
+    const image = imgEl?.src || card.dataset.image || '';
+
+    if (!name || !priceText || !image) {
+      console.warn('❌ Product structure/data missing');
+      return;
+    }
+
+    const prod = {
+      name,
+      price: priceText,
+      priceValue,
+      image,
+      images: [image, image, image],
+      desc: 'High-quality product selected by Shippily.'
+    };
+
+    openModal(prod);
+  });
+
+  // Close handlers
+  modal.addEventListener('click', (e) => {
+    if (e.target.matches('[data-close-modal]')) closeModal();
+  });
+})();
+
+

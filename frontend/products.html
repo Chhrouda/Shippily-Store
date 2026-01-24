@@ -166,17 +166,33 @@
 
   <div class="products" id="products-list">
 
-    <div class="product" data-name="Backpack" data-price="12">
-      <img src="https://picsum.photos/300?1" />
-      <h3 data-i18n="product_backpack">Backpack</h3>
-      <p data-i18n="price_12">TND 12</p>
-      <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
-    </div>
+    
+<div class="product"
+     data-name="Backpack"
+     data-price="12"
+     data-images="https://picsum.photos/id/1015/800/600, https://picsum.photos/id/1016/800/600, https://picsum.photos/id/1018/800/600">
+  <img src="https://picsum.photos/300?1" />
+  <h3>Backpack</h3>
+  <p>TND 12</p>
+  <button type="button" class="see-details-btn">See details</button>
+  <button class="addToCart">Add to Cart</button>
+</div>
 
     <div class="product" data-name="Watch" data-price="22">
       <img src="https://picsum.photos/300?2" />
       <h3 data-i18n="product_watch">Watch</h3>
       <p data-i18n="price_22">TND 22</p>
+
+
+<button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -184,6 +200,16 @@
       <img src="https://picsum.photos/300?3" />
       <h3 data-i18n="product_headphones">Headphones</h3>
       <p data-i18n="price_31">TND 31</p>
+
+      <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -191,6 +217,17 @@
       <img src="https://picsum.photos/300?4" />
       <h3 data-i18n="product_shoes">Shoes</h3>
       <p data-i18n="price_18">TND 18</p>
+
+
+<button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -198,6 +235,17 @@
       <img src="https://picsum.photos/300?5" />
       <h3 data-i18n="product_jacket">Jacket</h3>
       <p data-i18n="price_26">TND 26</p>
+
+      
+      <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -205,6 +253,17 @@
       <img src="https://picsum.photos/300?6" />
       <h3 data-i18n="product_sunglasses">Sunglasses</h3>
       <p data-i18n="price_29">TND 29</p>
+
+      <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -212,6 +271,18 @@
       <img src="https://picsum.photos/300?7" />
       <h3 data-i18n="product_laptopbag">Laptop Bag</h3>
       <p data-i18n="price_15">TND 15</p>
+
+
+      <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -219,6 +290,18 @@
       <img src="https://picsum.photos/300?8" />
       <h3 data-i18n="product_wallet">Wallet</h3>
       <p data-i18n="price_70">TND 70</p>
+
+
+     <button
+  type="button"
+  class="see-details-btn"
+  data-i18n="see_details"
+>
+  See details
+</button>
+
+
+
       <button class="addToCart" data-i18n="add_to_cart">Add to Cart</button>
     </div>
 
@@ -255,6 +338,62 @@
     </p>
   </div>
 </footer>
+
+<!-- PRODUCT DETAILS MODAL -->
+<div id="productModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" data-close-modal></div>
+
+  <div class="modal-dialog" role="document">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2 id="modalTitle" class="details-title">Details Page</h2>
+      <button class="modal-close" type="button" aria-label="Close" data-close-modal>✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <div class="details-grid">
+        <!-- Gallery -->
+        <div class="details-gallery">
+          <div class="zoom-wrapper">
+            <img id="mMainImg" class="details-main-img" alt="" />
+          </div>
+          <div id="mThumbs" class="details-thumbs"></div>
+        </div>
+
+  
+
+<div class="details-info">
+  <h1 id="mName" class="details-title"></h1>
+  <p id="mPrice" class="details-price"></p>
+  <div class="price-divider" aria-hidden="true"></div>
+
+  <p id="mDesc" class="details-desc"></p>
+
+  <div class="details-actions">
+    <button id="mAddToCart" class="addToCart primary-cta" type="button" data-i18n="add_to_cart">
+      Add to Cart
+    </button>
+
+    <a id="mWA" class="wa-btn modern" target="_blank" rel="noopener">
+      <svg class="wa-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path fill="currentColor"
+          d="M19.1 17.5c-.3-.2-1.6-.8-1.8-.9-.2-.1-.3-.2-.5 0-.2.2-.6.9-.8 1-.1.1-.3.1-.5 0-1.4-.6-2.4-1.8-3-3.1-.1-.2 0-.3.1-.5.1-.1.2-.3.3-.4.1-.1.1-.2.2-.3.1-.1.1-.3 0-.4l-.9-2c-.2-.6-.4-.6-.6-.6h-.5c-.2 0-.4.1-.6.3-.7.7-1 1.6-1 2.5 0 .3 0 .6.1 .9.4 1.5 1.3 2.9 2.5 4 1.2 1.1 2.7 1.9 4.3 2.2.3.1.7.1 1 .1.7 0 1.5-.2 2.1-.6.5-.3 1.1-.9 1.2-1.4.1-.4.1-.8 0-.9 0-.1-.1-.1-.2-.2zM16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.8L4 29l8.4-1.6C14.1 28.4 15.9 29 18 29c6.6 0 12-5.4 12-12S22.6 3 16 3z"/>
+      </svg>
+      <span>Ask on WhatsApp</span>
+    </a>
+  </div>
+
+  <div class="details-trust">
+    🚚 24–72h · 🇹🇳 Tunisia · 🔒 Pay on delivery
+  </div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
