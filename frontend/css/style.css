@@ -4,12 +4,12 @@
 ===================== */
 :root {
   --brand: #2453d3;
-  --text: #111;
+  --text: #2453d3;
   --muted: #555;
   --bg: #f9fafb;
   --border: #e5e7eb;
   --danger: #d60e0e;
-  --black: #000;
+  --black: #2453d3;
   --white: #fff;
   --shadow-soft: 0 10px 25px rgba(0,0,0,0.08);
   --radius: 10px;
@@ -104,14 +104,14 @@ header {
 
 .hero a {
   padding: 0.8rem 2rem;
-  border: 1px solid #000;
+  border: 1px solid #2453d3;
   background: #fff;
-  color: #000;
+  color: #2453d3;
   border-radius: 8px;
 }
 
 .hero a:hover {
-  background: #000;
+  background: #2453d3;
   color: #fff;
 }
 /* =====================
@@ -164,13 +164,13 @@ header {
 .product button {
   width: 100%;
   padding: 0.6rem;
-  border: 1px solid #000000;
+  border: 1px solid #2453d3;
   background: #fff;
   border-radius: 8px;
 }
 
 .product button:hover {
-  background: #000;
+  background: #2453d3;
   color: #fff;
 }
 
@@ -181,7 +181,7 @@ header {
   background: #fff;
   padding: 2rem;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(21, 42, 228, 0.05);
 }
 
 .cart-item {
